@@ -16,9 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// routes
+//auth routes
 import authRoute from "./routes/auth.route.js";
 app.use("/api/v1/auth", authRoute);
+// user routes
+import userRoute from "./routes/user.route.js";
+app.use("/api/v1/user", userRoute);
 
 // app listen
 app.get("/", (req, res) => {
