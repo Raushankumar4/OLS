@@ -4,11 +4,12 @@ import {
   updateProfile,
   userProfile,
 } from "../controllers/user.controller.js";
+import { isAuthenticated } from "../middleware/isAuthenticated.js";
 
 const router = Router();
 
-router.route("/profile/:id").get(userProfile);
-router.route("/update-profile/:id").put(updateProfile);
-router.route("/update-password/:id").put(updatePassword);
+router.route("/profile/:id").get(isAuthenticated, userProfile);
+router.route("/update-profile/:id").put(isAuthenticated, updateProfile);
+router.route("/update-password/:id").put(isAuthenticated, updatePassword);
 
 export default router;

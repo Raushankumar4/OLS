@@ -1,9 +1,8 @@
-// get user
-
 import TryCatch from "../middleware/errorHandler.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 
+// user profile
 export const userProfile = TryCatch(async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).select("-password");
