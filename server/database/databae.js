@@ -8,15 +8,21 @@ const dataBaseConnectin = async () => {
       `${process.env.DATABASE}/${dbName}`
     );
     console.log(
-      `\n Mongo DB Connected !! DB HOST :${connectionInstance.connection.host}:${dbName}`
+      `\n Mongo DB Connected !! DB HOST: ${connectionInstance.connection.host}:${dbName}`
     );
   } catch (error) {
-    console.log("DB Cnnection Failed", error.message);
+    console.log("DB Connection Failed:", error.message);
     process.exit(1);
-  } finally {
-    mongoose.connection.close();
-    // console.log("DB Cnnection Closed");
   }
 };
 
 export { dataBaseConnectin };
+
+
+
+
+
+
+
+
+

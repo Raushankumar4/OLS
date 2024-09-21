@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // routes
+import authRoute from "./routes/auth.route.js";
+app.use("/api/v1/auth", authRoute);
 
 // app listen
 app.get("/", (req, res) => {
