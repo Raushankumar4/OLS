@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
 import sendMail from "../middleware/sendMail.js";
+import TryCatch from "../middleware/errorHandler.js";
 
 // Register user
 export const registerUser = async (req, res) => {
@@ -58,3 +59,25 @@ export const registerUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// verfiy otp
+
+export const verifyOtp = TryCatch(async (req, res) => {
+  const { otp, activationToken } = req.body;
+
+  const verify = jwt.verify(activationToken, process.env.SECRET_KEY);
+  if (!verify) return res.status(400).json({ message: "Otp Expired" });
+  if (verify.otp !== otp) {
+    return res.status(400).json({ message: "invalid otp" });
+  }
+  // if both condition are true the user can registe
+  const user = await User.create({
+    name: verify.user.name,
+    email: verify.user.email,
+    password: verify.user.password,
+    profileImage: verify.user.profileImage,
+  });
+  res
+    .status(200)
+    .json({ message: "User created successfully", user, success: true });
+});
