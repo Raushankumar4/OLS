@@ -54,3 +54,12 @@ export const updatePassword = TryCatch(async (req, res) => {
     .status(200)
     .json({ message: "Password updated successfully", success: true });
 });
+
+// get other users
+
+export const otherUsers = TryCatch(async (req, res) => {
+  const { id } = req.params;
+  const otherUser = await User.find({ _id: { $ne: id } }).select("-password");
+  if (!otherUser) return res.status(404).json({ message: "User not found" });
+  return res.status(200).json({ otherUser });
+});

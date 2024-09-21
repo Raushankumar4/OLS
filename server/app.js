@@ -22,6 +22,9 @@ app.use("/api/v1/auth", authRoute);
 // user routes
 import userRoute from "./routes/user.route.js";
 app.use("/api/v1/user", userRoute);
+// adimin routes
+import adminRoute from "./routes/admin.route.js";
+app.use("/api/v1/admin", adminRoute);
 
 // app listen
 app.get("/", (req, res) => {
