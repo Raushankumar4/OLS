@@ -1,6 +1,7 @@
 import TryCatch from "../middleware/errorHandler.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import { deleteFromCloudinary } from "../utils/cloudinary.js";
 
 // user profile
 export const userProfile = TryCatch(async (req, res) => {
@@ -14,16 +15,30 @@ export const userProfile = TryCatch(async (req, res) => {
 
 export const updateProfile = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const { name, profileImage } = req.body;
-  const user = await User.findByIdAndUpdate(
-    id,
-    { name, profileImage },
-    { new: true }
-  );
+  const { name } = req.body;
+  let profileImageLocalPath = req.file ? req.file.path : null;
+
+  const user = await User.findById(id);
   if (!user) return res.status(404).json({ message: "User not found" });
-  return res
-    .status(200)
-    .json({ message: "Profile updated successfully", user });
+
+  // update
+  const update = {};
+  if (name) update.name = name;
+  if (profileImageLocalPath) {
+    const profileImage = await deleteFromCloudinary(profileImageLocalPath);
+    update.profileImage = profileImage.url;
+  }
+  const updateProfile = await User.findByIdAndUpdate(id, update, {
+    new: true,
+  }).select("-password");
+  if (!updateProfile)
+    return res.status(400).json({ message: "Failed to update profile" });
+
+  return res.status(200).json({
+    message: "Profile updated successfully",
+    updateProfile,
+    success: true,
+  });
 });
 
 // update user password
@@ -59,7 +74,7 @@ export const updatePassword = TryCatch(async (req, res) => {
 
 export const otherUsers = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const otherUser = await User.find({ _id: { $ne: id } }).select("-password");
+  const otherUser = await User.findById({ _id: { $ne: id } });
   if (!otherUser) return res.status(404).json({ message: "User not found" });
   return res.status(200).json({ otherUser });
 });
