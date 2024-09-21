@@ -19,6 +19,12 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    if (password.length <= 6) {
+      return res.status(400).json({
+        message: " password must be longer than 6 characters",
+        success: false,
+      });
+    }
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: "User already exists" });
