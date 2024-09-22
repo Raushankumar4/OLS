@@ -1,10 +1,8 @@
 import TryCatch from "../middleware/errorHandler.js";
-import {
-  deleteFromCloudinary,
-  uploadOnCloudnary,
-} from "../utils/cloudinary.js";
+import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import { Course } from "../models/course.model.js";
 
+//Create course
 export const createCourse = TryCatch(async (req, res) => {
   const {
     courseName,
@@ -79,7 +77,7 @@ export const createCourse = TryCatch(async (req, res) => {
     .json({ message: "Course created successfully", course, success: true });
 });
 
-// update course
+// Update course
 export const updateCourse = TryCatch(async (req, res) => {
   const { id } = req.params;
   const {
@@ -120,7 +118,7 @@ export const updateCourse = TryCatch(async (req, res) => {
   if (duration) update.duration = duration;
   if (title) update.title = title;
   if (courseImageLocalPath) {
-    const image = await deleteFromCloudinary(courseImageLocalPath);
+    const image = await uploadOnCloudnary(courseImageLocalPath);
     update.image = image.url;
   }
 
@@ -134,4 +132,36 @@ export const updateCourse = TryCatch(async (req, res) => {
     updateCourse,
     success: true,
   });
+});
+
+// Delete course
+
+export const deleteCourse = TryCatch(async (req, res) => {
+  const { id } = req.params;
+  const course = await Course.findByIdAndDelete(id);
+  if (!course) return res.status(404).json({ message: "Course not found" });
+  return res
+    .status(200)
+    .json({ message: "Course deleted successfully", success: true });
+});
+
+// get all course
+export const getAllCourse = TryCatch(async (req, res) => {
+  const courses = await Course.find();
+  if (courses.length === 0)
+    return res.status(404).json({ message: "No courses found" });
+  return res
+    .status(200)
+    .json({ message: "All courses", courses, success: true });
+});
+
+// get single course
+export const getSingleCourse = TryCatch(async (req, res) => {
+  const { id } = req.params;
+  const course = await Course.findById(id);
+  if (!course)
+    return res
+      .status(404)
+      .json({ message: "Course not found yet ,please add some course" });
+  return res.status(200).json({ course, success: true });
 });

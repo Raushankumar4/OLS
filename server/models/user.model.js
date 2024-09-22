@@ -7,7 +7,6 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
-      mazLength: [8, "Password should be at least 8 characters"],
     },
     profileImage: { type: String },
     role: { type: String, default: "user" },

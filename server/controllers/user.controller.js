@@ -1,7 +1,7 @@
 import TryCatch from "../middleware/errorHandler.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import { deleteFromCloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudnary } from "../utils/cloudinary.js";
 
 // user profile
 export const userProfile = TryCatch(async (req, res) => {
@@ -25,9 +25,10 @@ export const updateProfile = TryCatch(async (req, res) => {
   const update = {};
   if (name) update.name = name;
   if (profileImageLocalPath) {
-    const profileImage = await deleteFromCloudinary(profileImageLocalPath);
+    const profileImage = await uploadOnCloudnary(profileImageLocalPath);
     update.profileImage = profileImage.url;
   }
+
   const updateProfile = await User.findByIdAndUpdate(id, update, {
     new: true,
   }).select("-password");
@@ -74,7 +75,7 @@ export const updatePassword = TryCatch(async (req, res) => {
 
 export const otherUsers = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const otherUser = await User.findById({ _id: { $ne: id } });
+  const otherUser = await User.find({ _id: { $ne: id } }).select("-password");
   if (!otherUser) return res.status(404).json({ message: "User not found" });
   return res.status(200).json({ otherUser });
 });
