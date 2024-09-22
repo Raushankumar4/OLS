@@ -1,31 +1,32 @@
 import mongoose, { Schema } from "mongoose";
 
-export const lectureSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
+export const lectureSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    video: {
+      type: String,
+      required: true,
+    },
+    duration: {
+      type: String,
+      required: true,
+    },
+    course: {
+      type: Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  video: {
-    type: String,
-    required: true,
-  },
-  duration: {
-    type: String,
-    required: true,
-  },
-  course: {
-    type: Schema.Types.ObjectId,
-    ref: "Course",
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Lecture = mongoose.model("Lecture", lectureSchema);

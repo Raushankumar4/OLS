@@ -8,6 +8,11 @@ import {
 } from "../controllers/adminCourse.controller.js";
 import { upload } from "../middleware/multer.js";
 import { isAdmin, isAuthenticated } from "../middleware/isAuthenticated.js";
+import {
+  addLecture,
+  deleteLecture,
+  getAllLecture,
+} from "../controllers/lecture.controller.js";
 
 const router = Router();
 
@@ -24,5 +29,14 @@ router.route("/get-all-course").get(isAuthenticated, isAdmin, getAllCourse);
 router
   .route("/get-single-course/:id")
   .get(isAuthenticated, isAdmin, getSingleCourse);
+router
+  .route("/add-lecture/:id")
+  .post(isAuthenticated, isAdmin, upload.single("video"), addLecture);
+router
+  .route("/delete-lecture/:id")
+  .delete(isAuthenticated, isAdmin, deleteLecture);
+router
+  .route("/get-all-lecture/:id")
+  .get(isAuthenticated, isAdmin, getAllLecture);
 
 export default router;
