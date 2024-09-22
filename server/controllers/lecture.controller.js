@@ -1,6 +1,7 @@
 import TryCatch from "../middleware/errorHandler.js";
 import { Course } from "../models/course.model.js";
 import { Lecture } from "../models/lecture.model.js";
+import { User } from "../models/user.model.js";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 
 export const addLecture = TryCatch(async (req, res) => {
@@ -69,7 +70,31 @@ export const getAllLecture = TryCatch(async (req, res) => {
       .status(404)
       .json({ message: "No lectures found", success: false });
   }
+  const user = await User.findById(req.user._id);
+  if (user.role !== "admin") {
+    return res
+      .status(401)
+      .json({ message: "Only admin can access", success: false });
+  }
   return res
     .status(200)
     .json({ message: "All lectures", lectures, success: true });
+});
+
+// fetch lecture
+export const getSingleLecture = TryCatch(async (req, res) => {
+  const { id } = req.params;
+  const lecture = await Lecture.findById(id);
+  if (!lecture) {
+    return res
+      .status(404)
+      .json({ message: "Lecture not found", success: false });
+  }
+  const user = await User.findById(req.user._id);
+  if (user.role !== "admin") {
+    return res
+      .status(401)
+      .json({ message: "Only admin can access", success: false });
+  }
+  return res.status(200).json({ message: "lecture", lecture, success: true });
 });

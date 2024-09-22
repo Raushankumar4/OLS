@@ -12,6 +12,7 @@ import {
   addLecture,
   deleteLecture,
   getAllLecture,
+  getSingleLecture,
 } from "../controllers/lecture.controller.js";
 
 const router = Router();
@@ -38,5 +39,8 @@ router
 router
   .route("/get-all-lecture/:id")
   .get(isAuthenticated, isAdmin, getAllLecture);
+router
+  .route("/get-single-lecture/:id")
+  .get(isAuthenticated, isAdmin, getSingleLecture);
 
 export default router;
