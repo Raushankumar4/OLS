@@ -10,9 +10,11 @@ import { upload } from "../middleware/multer.js";
 import { isAdmin, isAuthenticated } from "../middleware/isAuthenticated.js";
 import {
   addLecture,
+  deleteAllLecture,
   deleteLecture,
   getAllLecture,
   getSingleLecture,
+  updateLecture,
 } from "../controllers/lecture.controller.js";
 
 const router = Router();
@@ -34,6 +36,9 @@ router
   .route("/add-lecture/:id")
   .post(isAuthenticated, isAdmin, upload.single("video"), addLecture);
 router
+  .route("/update-lecture/:id")
+  .put(isAuthenticated, isAdmin, upload.single("video"), updateLecture);
+router
   .route("/delete-lecture/:id")
   .delete(isAuthenticated, isAdmin, deleteLecture);
 router
@@ -42,5 +47,8 @@ router
 router
   .route("/get-single-lecture/:id")
   .get(isAuthenticated, isAdmin, getSingleLecture);
+router
+  .route("/delete-all-lectures/:id")
+  .delete(isAuthenticated, isAdmin, deleteAllLecture);
 
 export default router;
