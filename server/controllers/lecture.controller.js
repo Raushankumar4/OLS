@@ -45,6 +45,12 @@ export const addLecture = TryCatch(async (req, res) => {
 export const deleteLecture = TryCatch(async (req, res) => {
   const { id } = req.params;
   const lecture = await Lecture.findByIdAndDelete(id);
+  const user = await User.findById(req.user._id);
+  if (user.role !== "admin") {
+    return res
+      .status(401)
+      .json({ message: "Only admin can access", success: false });
+  }
   if (!lecture) {
     return res
       .status(404)
@@ -76,6 +82,11 @@ export const getAllLecture = TryCatch(async (req, res) => {
       .status(401)
       .json({ message: "Only admin can access", success: false });
   }
+  if (!user.subscription.includes(course._id)) {
+    return res
+      .status(401)
+      .json({ message: "Only subscribed user can access", success: false });
+  }
   return res
     .status(200)
     .json({ message: "All lectures", lectures, success: true });
@@ -85,6 +96,7 @@ export const getAllLecture = TryCatch(async (req, res) => {
 export const getSingleLecture = TryCatch(async (req, res) => {
   const { id } = req.params;
   const lecture = await Lecture.findById(id);
+
   if (!lecture) {
     return res
       .status(404)
@@ -95,6 +107,11 @@ export const getSingleLecture = TryCatch(async (req, res) => {
     return res
       .status(401)
       .json({ message: "Only admin can access", success: false });
+  }
+  if (!user.subscription.includes(lecture.course)) {
+    return res
+      .status(401)
+      .json({ message: "Only subscribed user can access", success: false });
   }
   return res.status(200).json({ message: "lecture", lecture, success: true });
 });

@@ -5,7 +5,7 @@ import {
   getAllCourse,
   getSingleCourse,
   updateCourse,
-} from "../controllers/adminCourse.controller.js";
+} from "../controllers/admin.controller.js";
 import { upload } from "../middleware/multer.js";
 import { isAdmin, isAuthenticated } from "../middleware/isAuthenticated.js";
 import {
