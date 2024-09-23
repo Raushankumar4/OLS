@@ -2,6 +2,7 @@ import TryCatch from "../middleware/errorHandler.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
+import { Course } from "../models/course.model.js";
 
 // user profile
 export const userProfile = TryCatch(async (req, res) => {
@@ -78,4 +79,12 @@ export const otherUsers = TryCatch(async (req, res) => {
   const otherUser = await User.find({ _id: { $ne: id } }).select("-password");
   if (!otherUser) return res.status(404).json({ message: "User not found" });
   return res.status(200).json({ otherUser });
+});
+
+// my course
+
+export const myCourse = TryCatch(async (req, res) => {
+  const courses = await Course.find({ _id: req.user.subscription });
+
+  res.json({ message: "My Course", courses });
 });

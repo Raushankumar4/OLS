@@ -1,6 +1,8 @@
 import TryCatch from "../middleware/errorHandler.js";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import { Course } from "../models/course.model.js";
+import { Lecture } from "../models/lecture.model.js";
+import { User } from "../models/user.model.js";
 
 //Create course
 export const createCourse = TryCatch(async (req, res) => {
@@ -138,7 +140,20 @@ export const updateCourse = TryCatch(async (req, res) => {
 
 export const deleteCourse = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const course = await Course.findByIdAndDelete(id);
+  const course = await Course.findById(id);
+  const lectures = await Lecture.find({ course: course._id });
+  await Promise.all(
+    lectures.map(async (lecture) => {
+      await Lecture.findByIdAndDelete(lecture._id);
+    })
+  );
+  await course.deleteOne();
+
+  await User.updateMany(
+    { subscription: course._id },
+    { $pull: { subscription: course._id } }
+  );
+
   if (!course) return res.status(404).json({ message: "Course not found" });
   return res
     .status(200)

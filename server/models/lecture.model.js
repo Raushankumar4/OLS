@@ -23,6 +23,12 @@ export const lectureSchema = new Schema(
       ref: "Course",
       required: true,
     },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
   {
     timestamps: true,

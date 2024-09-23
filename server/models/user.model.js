@@ -11,10 +11,10 @@ const UserSchema = new Schema(
     profileImage: { type: String },
     role: { type: String, default: "user" },
     mainRole: { type: String, default: "user" },
-    subscriptions: [
+    subscription: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "Courses",
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
       },
     ],
     resetPasswordExpire: Date,
