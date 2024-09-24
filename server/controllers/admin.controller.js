@@ -180,3 +180,31 @@ export const getSingleCourse = TryCatch(async (req, res) => {
       .json({ message: "Course not found yet ,please add some course" });
   return res.status(200).json({ course, success: true });
 });
+
+// update user role
+
+export const upadateRole = TryCatch(async (req, res) => {
+  if (req.user.mainrole !== "superadmin")
+    return res.status(403).json({
+      message: "You are not authorized to update role",
+    });
+  const user = await User.findByIdAndUpdate(req.params.id);
+
+  if (user.role === "user") {
+    user.role = "admin";
+    await user.save();
+
+    return res.status(200).json({
+      message: "User role updated to Admin",
+    });
+  }
+
+  if (user.role === "admin") {
+    user.role = "user";
+    await user.save();
+
+    return res.status(200).json({
+      message: "role updated successfully",
+    });
+  }
+});

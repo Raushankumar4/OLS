@@ -88,3 +88,9 @@ export const myCourse = TryCatch(async (req, res) => {
 
   res.json({ message: "My Course", courses });
 });
+
+// add course progress
+
+
+
+

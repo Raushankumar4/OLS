@@ -4,6 +4,7 @@ import {
   deleteCourse,
   getAllCourse,
   getSingleCourse,
+  upadateRole,
   updateCourse,
 } from "../controllers/admin.controller.js";
 import { upload } from "../middleware/multer.js";
@@ -46,5 +47,6 @@ router.route("/get-single-lecture/:id").get(isAuthenticated, getSingleLecture);
 router
   .route("/delete-all-lectures/:id")
   .delete(isAuthenticated, deleteAllLecture);
+router.route("/update-role/:id").put(isAuthenticated, isAdmin, upadateRole);
 
 export default router;
