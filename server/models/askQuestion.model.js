@@ -16,6 +16,12 @@ const questionSchema = new Schema(
       ref: "User",
       required: true,
     },
+    replies: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reply",
+      },
+    ],
   },
   { timestamps: true }
 );

@@ -18,6 +18,12 @@ import {
   getAllQuestion,
   updateQuestion,
 } from "../controllers/askQuestion.js";
+import {
+  addReply,
+  deleteReply,
+  getAllReply,
+  updateReply,
+} from "../controllers/replyQuestion.controller.js";
 
 const router = Router();
 
@@ -34,5 +40,9 @@ router.route("/askQuestion").post(isAuthenticated, askQuestion);
 router.route("/getQuestions").get(isAuthenticated, getAllQuestion);
 router.route("/deleteQuestion/:id").delete(isAuthenticated, deleteQuestion);
 router.route("/updateQuestion/:id").put(isAuthenticated, updateQuestion);
+router.route("/replyQuestions").post(isAuthenticated, addReply);
+router.route("/getAllReply").get(isAuthenticated, getAllReply);
+router.route("/deleteReply/:id").delete(isAuthenticated, deleteReply);
+router.route("/updateReply/:id").put(isAuthenticated, updateReply);
 
 export default router;
