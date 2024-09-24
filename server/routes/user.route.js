@@ -9,8 +9,15 @@ import { isAuthenticated } from "../middleware/isAuthenticated.js";
 import { upload } from "../middleware/multer.js";
 import {
   addProgress,
+  downloadCertificate,
   getYourProgress,
 } from "../controllers/courseProgress.controller.js";
+import {
+  askQuestion,
+  deleteQuestion,
+  getAllQuestion,
+  updateQuestion,
+} from "../controllers/askQuestion.js";
 
 const router = Router();
 
@@ -22,5 +29,10 @@ router.route("/update-password/:id").put(isAuthenticated, updatePassword);
 router.route("/get-other-user/:id").get(isAuthenticated, otherUsers);
 router.route("/courseProgress").post(isAuthenticated, addProgress);
 router.route("/yourProgress").get(isAuthenticated, getYourProgress);
+router.route("/getCertficate/:id").get(isAuthenticated, downloadCertificate);
+router.route("/askQuestion").post(isAuthenticated, askQuestion);
+router.route("/getQuestions").get(isAuthenticated, getAllQuestion);
+router.route("/deleteQuestion/:id").delete(isAuthenticated, deleteQuestion);
+router.route("/updateQuestion/:id").put(isAuthenticated, updateQuestion);
 
 export default router;

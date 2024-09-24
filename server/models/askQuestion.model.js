@@ -1,8 +1,8 @@
-import mongoose, { Schema } from "express";
+import mongoose, { Schema } from "mongoose";
 
-const commentSchema = new Schema(
+const questionSchema = new Schema(
   {
-    text: {
+    question: {
       type: String,
       required: true,
     },
@@ -20,4 +20,4 @@ const commentSchema = new Schema(
   { timestamps: true }
 );
 
-export const Comment = mongoose.model("Comment", commentSchema);
+export const Question = mongoose.model("Question", questionSchema);

@@ -15,6 +15,12 @@ const CourseSchema = new Schema(
     courseOverview: { type: String, required: true },
     courseTag: { type: String, required: true },
     duration: { type: String, required: true },
+    questions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Question",
+      },
+    ],
     createdBy: {
       type: String,
       required: true,
