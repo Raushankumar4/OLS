@@ -38,7 +38,10 @@ export const askQuestion = TryCatch(async (req, res) => {
 // get all question
 
 export const getAllQuestion = TryCatch(async (req, res) => {
-  const questions = await Question.find().populate("userId");
+  const questions = await Question.find().populate({
+    path: "userId",
+    select: "name profileImage email",
+  });
   if (questions.length === 0) {
     return res
       .status(404)
