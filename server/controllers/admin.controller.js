@@ -141,6 +141,9 @@ export const updateCourse = TryCatch(async (req, res) => {
 export const deleteCourse = TryCatch(async (req, res) => {
   const { id } = req.params;
   const course = await Course.findById(id);
+  if (!course) {
+    return res.status(404).json({ message: "Course not found" });
+  }
   const lectures = await Lecture.find({ course: course._id });
   await Promise.all(
     lectures.map(async (lecture) => {

@@ -58,11 +58,15 @@ export const getAllQuestion = TryCatch(async (req, res) => {
 export const deleteQuestion = TryCatch(async (req, res) => {
   const { id } = req.params;
   const question = await Question.findByIdAndDelete(id);
+
   if (!question) {
     return res
       .status(404)
       .json({ message: "Question not found", success: false });
   }
+  const course = await Course.findById(question.courseId);
+  course.questions.pull(question._id);
+  await course.save();
   return res
     .status(200)
     .json({ message: "Question deleted successfully", success: true });
