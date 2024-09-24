@@ -41,14 +41,10 @@ router
 router
   .route("/delete-lecture/:id")
   .delete(isAuthenticated, isAdmin, deleteLecture);
-router
-  .route("/get-all-lecture/:id")
-  .get(isAuthenticated, isAdmin, getAllLecture);
-router
-  .route("/get-single-lecture/:id")
-  .get(isAuthenticated, isAdmin, getSingleLecture);
+router.route("/get-all-lecture/:id").get(isAuthenticated, getAllLecture);
+router.route("/get-single-lecture/:id").get(isAuthenticated, getSingleLecture);
 router
   .route("/delete-all-lectures/:id")
-  .delete(isAuthenticated, isAdmin, deleteAllLecture);
+  .delete(isAuthenticated, deleteAllLecture);
 
 export default router;
