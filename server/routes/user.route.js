@@ -24,6 +24,10 @@ import {
   getAllReply,
   updateReply,
 } from "../controllers/replyQuestion.controller.js";
+import {
+  forgotPassword,
+  resetPassword,
+} from "../controllers/auth.controller.js";
 
 const router = Router();
 
@@ -32,9 +36,11 @@ router
   .route("/update-profile/:id")
   .put(isAuthenticated, upload.single("profileImage"), updateProfile);
 router.route("/update-password/:id").put(isAuthenticated, updatePassword);
+router.route("/forgotPassword").post(forgotPassword);
+router.route("/resetPassword").post(resetPassword);
 router.route("/get-other-user/:id").get(isAuthenticated, otherUsers);
-router.route("/courseProgress").post(isAuthenticated, addProgress);
-router.route("/yourProgress").get(isAuthenticated, getYourProgress);
+router.route("/addProgress").post(isAuthenticated, addProgress);
+router.route("/getYourProgress").get(isAuthenticated, getYourProgress);
 router.route("/getCertficate/:id").get(isAuthenticated, downloadCertificate);
 router.route("/askQuestion").post(isAuthenticated, askQuestion);
 router.route("/getQuestions").get(isAuthenticated, getAllQuestion);

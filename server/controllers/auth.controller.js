@@ -2,8 +2,9 @@ import { User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
-import sendMail from "../middleware/sendMail.js";
+import sendMail, { sendForgotmail } from "../middleware/sendMail.js";
 import TryCatch from "../middleware/errorHandler.js";
+
 import {
   generateToken,
   removeTokenCookie,
@@ -123,4 +124,64 @@ export const logout = TryCatch(async (req, res) => {
   return res
     .status(200)
     .json({ message: "log out successfully", success: true });
+});
+
+// forgot password
+
+export const forgotPassword = TryCatch(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) return res.status(404).json({ message: "No User this email" });
+
+  const token = jwt.sign({ email }, process.env.forgot_Secret);
+
+  const data = {
+    email,
+    token,
+  };
+  await sendForgotmail("LEARNING_HUB", data);
+
+  user.resetPasswordExpire = Date.now() + 5 * 60 * 1000;
+
+  await user.save();
+
+  res.json({
+    message: "Forgot password Link is send to your email",
+  });
+});
+
+// reset password
+export const resetPassword = TryCatch(async (req, res) => {
+  const decodedData = jwt.verify(req.query.token, process.env.forgot_Secret);
+
+  console.log(req.query.token);
+
+  const user = await User.findOne({ email: decodedData.email });
+
+  if (!user)
+    return res.status(404).json({
+      message: "No User this email",
+    });
+  if (user.resetPasswordExpire === null)
+    return res.status(400).json({
+      message: "Token Expire",
+    });
+  if (user.resetPasswordExpire < Date.now()) {
+    return res.status(400).json({
+      message: "Token Expire",
+    });
+  }
+  const password = await bcrypt.hash(req.body.password, 10);
+
+  user.password = password;
+
+  user.resetPasswordExpire = null;
+
+  await user.save();
+
+  res.json({
+    message: "Password Reset Successfully",
+  });
 });
