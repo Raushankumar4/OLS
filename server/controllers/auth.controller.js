@@ -107,7 +107,7 @@ export const login = TryCatch(async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
   if (!match) return res.status(400).json({ message: "Invalid credentials" });
 
-  const token = generateToken(user._id);
+  const token = generateToken(user);
   setTokenCookie(res, token);
   if (!token) return res.status(500).json({ message: "Internal server error" });
   res.status(200).json({
