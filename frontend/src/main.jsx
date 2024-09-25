@@ -7,11 +7,17 @@ import persistStore from "redux-persist/es/persistStore";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "react-hot-toast";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Home from "./components/Home/Home.jsx";
+import Register from "./components/Auth/Register.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "/register", element: <Register /> },
+    ],
   },
 ]);
 
