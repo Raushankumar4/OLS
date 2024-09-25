@@ -31,7 +31,7 @@ import {
 
 const router = Router();
 
-router.route("/profile/:id").get(isAuthenticated, userProfile);
+router.route("/getmyprofile/:id").get(isAuthenticated, userProfile);
 router
   .route("/update-profile/:id")
   .put(isAuthenticated, upload.single("profileImage"), updateProfile);

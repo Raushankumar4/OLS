@@ -76,12 +76,9 @@ const Navbar = () => {
           >
             FAQ
           </Link>
-          <button
-            onClick={toggleDarkMode}
-            className="flex items-center focus:outline-none"
-          >
+          <button onClick={toggleDarkMode} className="flex items-center">
             {darkMode ? (
-              <FaMoon className="text-gray-800" />
+              <FaMoon className="dark:text-gray-100 " />
             ) : (
               <FaSun className="text-yellow-500" />
             )}

@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-import CourseCard from "../CourseCard/CourseCard";
+import CourseCard from "../Course/CourseCard";
 
 const Home = () => {
   const testimonialSettings = {
@@ -38,8 +38,10 @@ const Home = () => {
       <section className="bg-gray-100 dark:bg-gray-900 py-20">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
-            What Our Students Say
+            Our Students Are{" "}
+            <span className="text-3xl font-bold">Our Strength</span>
           </h2>
+          <h1>See What They Say About Us</h1>
           <Slider
             {...testimonialSettings}
             className="mt-10 dark:text-gray-300 text-black md:mx-8 mx-8"

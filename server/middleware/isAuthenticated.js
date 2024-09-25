@@ -14,12 +14,9 @@ export const isAuthenticated = TryCatch(async (req, res, next) => {
   const token = authorization.split(" ")[1];
 
   try {
-
     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = await User.findById(decodedData._id);
-    next();
-
     next();
   } catch (err) {
     return res
