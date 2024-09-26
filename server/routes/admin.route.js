@@ -29,7 +29,7 @@ router
 router
   .route("/delete-course/:id")
   .delete(isAuthenticated, isAdmin, deleteCourse);
-router.route("/get-all-course").get(isAuthenticated, isAdmin, getAllCourse);
+router.route("/get-all-course").get(isAuthenticated, getAllCourse);
 router
   .route("/get-single-course/:id")
   .get(isAuthenticated, isAdmin, getSingleCourse);
