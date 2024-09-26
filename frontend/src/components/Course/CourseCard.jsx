@@ -34,11 +34,8 @@ const CourseCard = () => {
           {Array(4)
             .fill()
             .map((_, index) => (
-              <div className="grid gap-2">
-                <div
-                  key={index}
-                  className="bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden mx-2 "
-                >
+              <div key={index} className="grid gap-2">
+                <div className="bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden mx-2 ">
                   <img
                     src="https://img.freepik.com/free-vector/software-development-programming-coding-learning-information-technology-courses-it-courses-all-levels-computing-hi-tech-course-concept_335657-191.jpg"
                     alt={`Course ${index + 1}`}

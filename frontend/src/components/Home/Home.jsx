@@ -53,11 +53,8 @@ const Home = () => {
             {Array(4)
               .fill()
               .map((_, index) => (
-                <div className="grid ">
-                  <div
-                    key={index}
-                    className="bg-white dark:bg-gray-700 shadow-lg rounded-lg p-6 flex flex-col mx-4"
-                  >
+                <div key={index} className="grid ">
+                  <div className="bg-white dark:bg-gray-700 shadow-lg rounded-lg p-6 flex flex-col mx-4">
                     <p className="text-gray-600 dark:text-gray-300">
                       "This platform has changed my life! The courses are so
                       well-structured and easy to follow."
