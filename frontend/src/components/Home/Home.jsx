@@ -1,6 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
 import CourseCard from "../Course/CourseCard";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const testimonialSettings = {
@@ -24,9 +25,12 @@ const Home = () => {
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
           Learn from the best courses anytime, anywhere.
         </p>
-        <button className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+        <Link
+          to="/register"
+          className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+        >
           Get Started
-        </button>
+        </Link>
       </header>
 
       {/* Courses Section */}

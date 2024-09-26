@@ -9,6 +9,8 @@ import { Toaster } from "react-hot-toast";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./components/Home/Home.jsx";
 import Register from "./components/Auth/Register.jsx";
+import VerifyOtp from "./components/Auth/VerifyOtp.jsx";
+import Login from "./components/Auth/Login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "/register", element: <Register /> },
+      { path: "/verifyOtp", element: <VerifyOtp /> },
+      { path: "/login", element: <Login /> },
     ],
   },
 ]);

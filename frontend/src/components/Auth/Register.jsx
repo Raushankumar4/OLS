@@ -6,6 +6,7 @@ import { errorToast, successToast } from "../Toast/ToastNotify";
 import { useDispatch } from "react-redux";
 import { setActivationToken } from "../../redux/store/slices/authSlice";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [userInput, setUserInput] = useState({
@@ -18,16 +19,19 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const naviagate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
     if (!userInput.name) {
       newErrors.name = "Name is required";
     }
-    if (!userInput.email || !/\S+@\S+\.\S+/.test(userInput.email)) {
-      newErrors.email = "Valid email is required";
+    if (!userInput.email) {
+      newErrors.email = "email is required";
     }
-    if (!userInput.password || userInput.password.length < 6) {
+    if (!userInput.password) {
+      newErrors.password = "Password required";
+    } else if (userInput.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
     setErrors(newErrors);
@@ -65,6 +69,7 @@ const Register = () => {
       setIsLoading(false);
       dispatch(setActivationToken(data?.activationToken));
       successToast(data?.message);
+      naviagate("/verifyOtp");
     } catch (error) {
       errorToast(error?.response?.data?.message || error.message);
     } finally {
@@ -127,9 +132,10 @@ const Register = () => {
               name="name"
               placeholder="Enter your name"
               disabled={isLoading}
+              error={errors.name}
               className="mb-4"
             />
-            {errors.name && <p className="text-red-500 mb-2">{errors.name}</p>}
+
             <InputField
               label="Email"
               onChange={handleChange}
@@ -137,11 +143,10 @@ const Register = () => {
               type="email"
               placeholder="Enter your email"
               disabled={isLoading}
+              error={errors.email}
               className="mb-4"
             />
-            {errors.email && (
-              <p className="text-red-500 mb-2">{errors.email}</p>
-            )}
+
             <InputField
               label="Password"
               name="password"
@@ -150,10 +155,9 @@ const Register = () => {
               placeholder="Enter your password"
               disabled={isLoading}
               className="mb-4"
+              error={errors.password}
             />
-            {errors.password && (
-              <p className="text-red-500 mb-2">{errors.password}</p>
-            )}
+
             <button
               disabled={isLoading}
               type="submit"
