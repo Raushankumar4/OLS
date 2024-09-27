@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 const App = () => {
   return (
-    <div className="dark:bg-gray-900">
+    <div className="dark:bg-gray-900 ">
       <Navbar />
       <Outlet />
     </div>

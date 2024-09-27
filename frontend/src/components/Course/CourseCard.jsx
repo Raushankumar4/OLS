@@ -1,6 +1,8 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 const CourseCard = () => {
+  const { id } = useParams();
   const courseSettings = {
     dots: true,
     infinite: true,
@@ -48,9 +50,12 @@ const CourseCard = () => {
                     <p className="mt-2 text-gray-600 dark:text-gray-300">
                       Short description of the course content goes here.
                     </p>
-                    <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300">
+                    <Link
+                      to={`/coursedetails/${id}`}
+                      className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+                    >
                       View Course
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

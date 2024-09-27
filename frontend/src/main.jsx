@@ -15,6 +15,8 @@ import Courses from "./components/Course/Courses.jsx";
 import About from "./components/Pages/About.jsx";
 import Policy from "./components/Pages/Policy.jsx";
 import FAQ from "./components/Pages/Faq.jsx";
+import CourseDetails from "./components/Course/CourseDetails.jsx";
+import StudyCourse from "./components/Course/StudyCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,8 @@ const router = createBrowserRouter([
       { path: "/about", element: <About /> },
       { path: "/policy", element: <Policy /> },
       { path: "/faq", element: <FAQ /> },
+      { path: "/coursedetails/:id", element: <CourseDetails /> },
+      { path: "/study", element: <StudyCourse /> },
     ],
   },
 ]);
