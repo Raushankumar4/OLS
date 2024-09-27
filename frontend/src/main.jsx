@@ -11,6 +11,10 @@ import Home from "./components/Home/Home.jsx";
 import Register from "./components/Auth/Register.jsx";
 import VerifyOtp from "./components/Auth/VerifyOtp.jsx";
 import Login from "./components/Auth/Login.jsx";
+import Courses from "./components/Course/Courses.jsx";
+import About from "./components/Pages/About.jsx";
+import Policy from "./components/Pages/Policy.jsx";
+import FAQ from "./components/Pages/Faq.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +25,10 @@ const router = createBrowserRouter([
       { path: "/register", element: <Register /> },
       { path: "/verifyOtp", element: <VerifyOtp /> },
       { path: "/login", element: <Login /> },
+      { path: "/courses", element: <Courses /> },
+      { path: "/about", element: <About /> },
+      { path: "/policy", element: <Policy /> },
+      { path: "/faq", element: <FAQ /> },
     ],
   },
 ]);

@@ -47,31 +47,31 @@ const Navbar = () => {
           }`}
         >
           <Link
-            to="#"
+            to="/"
             className="text-gray-800 dark:text-white hover:underline"
           >
             Home
           </Link>
           <Link
-            to="#"
+            to="/courses"
             className="text-gray-800 dark:text-white hover:underline"
           >
             Courses
           </Link>
           <Link
-            to="#"
+            to="/about"
             className="text-gray-800 dark:text-white hover:underline"
           >
             About
           </Link>
           <Link
-            to="#"
+            to="/policy"
             className="text-gray-800 dark:text-white hover:underline"
           >
             Policy
           </Link>
           <Link
-            to="#"
+            to="/faq"
             className="text-gray-800 dark:text-white hover:underline"
           >
             FAQ
@@ -97,13 +97,13 @@ const Navbar = () => {
             {profileOpen && (
               <div className="absolute right-0 top-1 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md">
                 <Link
-                  to="#"
+                  to="/profile"
                   className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
                   Profile
                 </Link>
                 <Link
-                  to="#"
+                  to="/logout"
                   className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
                   Logout
@@ -125,31 +125,31 @@ const Navbar = () => {
               )}
             </button>
             <Link
-              to="#"
+              to="/"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               Home
             </Link>
             <Link
-              to="#"
+              to="/courses"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               Courses
             </Link>
             <Link
-              to="#"
+              to="/about"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               About
             </Link>
             <Link
-              to="#"
+              to="/policy"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               Policy
             </Link>
             <Link
-              to="#"
+              to="/faq"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               FAQ
