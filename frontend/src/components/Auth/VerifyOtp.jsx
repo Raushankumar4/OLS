@@ -1,22 +1,30 @@
 import React, { useState } from "react";
+import { AUTH_URL } from "../../contsant";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { errorToast, successToast } from "../Toast/ToastNotify";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(4).fill(""));
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(""); // For error messages
+  const activationToken = useSelector((state) => state.auth.activationToken);
+  const navigate = useNavigate();
+  console.log(activationToken);
 
   const handleChange = (e, index) => {
     const value = e.target.value;
 
-    // Allow only numbers
+    // Allow only numbers and limit input to one character
     if (!/^\d*$/.test(value) || value.length > 1) return;
 
-    // Update OTP state
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
 
     // Move focus to the next input
     if (value && index < 3) {
-      // Change 5 to 3 since we have 4 inputs
       document.getElementById(`otp-input-${index + 1}`).focus();
     }
   };
@@ -27,11 +35,25 @@ const VerifyOtp = () => {
       document.getElementById(`otp-input-${index - 1}`).focus();
     }
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`OTP Entered: ${otp.join("")}`);
-    // Here you can add your submit logic
+    setIsLoading(true);
+    setError("");
+    try {
+      const otpNumber = Number(otp.join(""));
+      const { data } = await axios.post(`${AUTH_URL}/verfiy`, {
+        otp: otpNumber,
+        activationToken,
+      });
+      successToast(data.message);
+      navigate("/login");
+      setIsLoading(false);
+    } catch (error) {
+      errorToast(error.response.data.message || error.message);
+      setError("Verification failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,6 +63,10 @@ const VerifyOtp = () => {
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-semibold mb-6 text-center">Verify OTP</h2>
+        {error && (
+          <div className="mb-4 text-red-500 text-center">{error}</div>
+        )}{" "}
+        {/* Error message display */}
         <div className="flex justify-between mb-4 space-x-2">
           {otp.map((value, index) => (
             <input
@@ -57,9 +83,12 @@ const VerifyOtp = () => {
         </div>
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200"
+          disabled={isLoading} // Disable button while loading
+          className={`w-full py-2 px-4 ${
+            isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
+          } text-white font-semibold rounded-lg transition duration-200`}
         >
-          Verify
+          {isLoading ? "Verifying..." : "Verify"}
         </button>
       </form>
     </div>
