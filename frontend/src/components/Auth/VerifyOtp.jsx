@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { errorToast, successToast } from "../Toast/ToastNotify";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(4).fill(""));
@@ -83,12 +84,12 @@ const VerifyOtp = () => {
         </div>
         <button
           type="submit"
-          disabled={isLoading} // Disable button while loading
+          disabled={isLoading}
           className={`w-full py-2 px-4 ${
             isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
           } text-white font-semibold rounded-lg transition duration-200`}
         >
-          {isLoading ? "Verifying..." : "Verify"}
+          {isLoading ? <LoadingSpinner /> : "Verify"}
         </button>
       </form>
     </div>

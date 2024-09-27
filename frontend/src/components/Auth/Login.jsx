@@ -1,12 +1,53 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { InputField } from "../InputArea/InputField";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { AUTH_URL } from "../../contsant";
+import { errorToast, successToast } from "../Toast/ToastNotify";
+import { login } from "../../redux/store/slices/authSlice";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Login = () => {
-  const handleSubmit = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInput, settUserInput] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState({});
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const validateForm = () => {
+    const newErrors = {};
+    if (!userInput.email) {
+      newErrors.email = "Email is required";
+    }
+    if (!userInput.password) {
+      newErrors.password = "Password is required";
+    }
+    setError(newErrors);
+    return Object.keys(error).length === 0 ? null : error;
+  };
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    settUserInput((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const loginUser = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    alert("Logging in...");
+    if (validateForm()) return;
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post(`${AUTH_URL}/login`, userInput);
+      setIsLoading(false);
+      dispatch(login({ token: data?.token }));
+      successToast(data?.message);
+      navigate("/courses");
+    } catch (error) {
+      setIsLoading(false);
+      errorToast(error.response.data.message || error.message);
+    }
   };
 
   return (
@@ -23,12 +64,16 @@ const Login = () => {
           <h2 className="text-2xl font-semibold mb-6 text-center">
             Student Login
           </h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={loginUser}>
             <div className="mb-4">
               <InputField
                 label="Email"
                 type="email"
                 name="email"
+                onChange={handleOnChange}
+                value={userInput.email}
+                error={error.email}
+                disabled={isLoading}
                 required
                 placeholder="Enter your email"
               />
@@ -38,15 +83,20 @@ const Login = () => {
                 label="Password"
                 type="password"
                 name="password"
+                error={error.password}
+                disabled={isLoading}
+                onChange={handleOnChange}
+                value={userInput.password}
                 required
                 placeholder="Enter your password"
               />
             </div>
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 dark:bg-blue-500 dark:hover:bg-blue-600"
             >
-              Login
+              {isLoading ? <LoadingSpinner /> : "Login"}
             </button>
             <div className="mt-4 text-center">
               <Link

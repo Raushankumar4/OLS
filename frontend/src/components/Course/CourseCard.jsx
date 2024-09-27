@@ -1,8 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import Slider from "react-slick";
 const CourseCard = () => {
   const { id } = useParams();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const courseSettings = {
     dots: true,
     infinite: true,
@@ -43,19 +45,29 @@ const CourseCard = () => {
                     alt={`Course ${index + 1}`}
                     className="w-full h-40 object-cover"
                   />
-                  <div className="p-4">
+                  <div className="grid gap-2 p-6">
                     <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
                       Course Title {index + 1}
                     </h3>
                     <p className="mt-2 text-gray-600 dark:text-gray-300">
                       Short description of the course content goes here.
                     </p>
-                    <Link
-                      to={`/coursedetails/${id}`}
-                      className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-                    >
-                      View Course
-                    </Link>
+                    {isAuthenticated && (
+                      <Link
+                        to={` /coursedetails/${id}`}
+                        className="mt-4  bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+                      >
+                        View Course
+                      </Link>
+                    )}
+                    {!isAuthenticated && (
+                      <Link
+                        to="/register"
+                        className="mt-4  bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+                      >
+                        View Course
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

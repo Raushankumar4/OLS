@@ -2,8 +2,10 @@ import React from "react";
 import Slider from "react-slick";
 import CourseCard from "../Course/CourseCard";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const testimonialSettings = {
     dots: true,
     infinite: true,
@@ -29,7 +31,7 @@ const Home = () => {
           to="/register"
           className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300"
         >
-          Get Started
+          {isAuthenticated ? "Go to Dashboard" : "Get Started"}
         </Link>
       </header>
 

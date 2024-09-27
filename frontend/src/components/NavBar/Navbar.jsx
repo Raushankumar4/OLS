@@ -1,15 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaMoon, FaSun, FaBars, FaTimes, FaChevronUp } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logOutuser } from "../Auth/logout";
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    return savedMode ? JSON.parse(savedMode) : false;
+  });
+
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark", !darkMode);
+    setDarkMode((prevMode) => !prevMode);
   };
 
   const toggleMenu = () => {
@@ -22,6 +35,13 @@ const Navbar = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await logOutuser(dispatch);
+    navigate("/login");
+    setProfileOpen(false);
   };
 
   return (
@@ -76,25 +96,35 @@ const Navbar = () => {
           >
             FAQ
           </Link>
+          {!isAuthenticated && (
+            <Link
+              to="/login"
+              className="block text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Login
+            </Link>
+          )}
           <button onClick={toggleDarkMode} className="flex items-center">
             {darkMode ? (
-              <FaMoon className="dark:text-gray-100 " />
+              <FaMoon className="dark:text-gray-100" />
             ) : (
               <FaSun className="text-yellow-500" />
             )}
           </button>
           <div className="relative">
-            <button
-              onClick={toggleProfileMenu}
-              className="flex items-center focus:outline-none"
-            >
-              <img
-                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt="User Profile"
-                className="rounded-full h-8 w-8"
-              />
-            </button>
-            {profileOpen && (
+            {isAuthenticated && (
+              <button
+                onClick={toggleProfileMenu}
+                className="flex items-center focus:outline-none"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt="User Profile"
+                  className="rounded-full h-8 w-8"
+                />
+              </button>
+            )}
+            {profileOpen && isAuthenticated && (
               <div className="absolute right-0 top-1 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md">
                 <Link
                   to="/profile"
@@ -102,12 +132,12 @@ const Navbar = () => {
                 >
                   Profile
                 </Link>
-                <Link
-                  to="/logout"
+                <button
+                  onClick={handleLogout}
                   className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
                   Logout
-                </Link>
+                </button>
               </div>
             )}
           </div>
@@ -117,43 +147,78 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden mt-2">
           <div className="flex flex-col space-y-2">
-            <button onClick={toggleDarkMode} className="flex items-center">
-              {darkMode ? (
-                <FaMoon className="dark:text-gray-100 " />
-              ) : (
-                <FaSun className="text-yellow-500" />
-              )}
-            </button>
+            {isAuthenticated && (
+              <button
+                onClick={toggleProfileMenu}
+                className="flex items-center focus:outline-none"
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt="User Profile"
+                  className="rounded-full h-8 w-8"
+                />
+              </button>
+            )}
             <Link
+              onClick={() => setIsOpen(false)}
               to="/"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               Home
             </Link>
             <Link
+              onClick={() => setIsOpen(false)}
               to="/courses"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               Courses
             </Link>
             <Link
+              onClick={() => setIsOpen(false)}
               to="/about"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               About
             </Link>
             <Link
+              onClick={() => setIsOpen(false)}
               to="/policy"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               Policy
             </Link>
             <Link
+              onClick={() => setIsOpen(false)}
               to="/faq"
               className="block text-gray-800 dark:text-white hover:underline"
             >
               FAQ
             </Link>
+            {isAuthenticated && (
+              <Link
+                onClick={handleLogout}
+                className="block text-gray-800 dark:text-white hover:underline"
+              >
+                Logout
+              </Link>
+            )}
+            <button onClick={toggleDarkMode} className="flex items-center">
+              {darkMode ? (
+                <FaMoon className="dark:text-gray-100" />
+              ) : (
+                <FaSun className="text-yellow-500" />
+              )}
+            </button>
+
+            {!isAuthenticated && (
+              <Link
+                onClick={() => setIsOpen(false)}
+                to="/login"
+                className="block text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}
