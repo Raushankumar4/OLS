@@ -24,7 +24,7 @@ const UserSchema = new Schema(
         ref: "Course",
       },
     ],
-    resetPasswordExpire: Date,
+    resetPasswordExpire: { type: Date },
   },
   { timestamps: true }
 );

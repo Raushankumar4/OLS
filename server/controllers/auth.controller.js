@@ -11,6 +11,10 @@ import {
   setTokenCookie,
 } from "../utils/generateToken.js";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 // Register user
 export const registerUser = async (req, res) => {
   try {
@@ -107,7 +111,7 @@ export const login = TryCatch(async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
   if (!match) return res.status(400).json({ message: "Invalid credentials" });
 
-  const token = generateToken(user);
+  const token = generateToken({ _id: user._id });
   setTokenCookie(res, token);
   if (!token) return res.status(500).json({ message: "Internal server error" });
   res.status(200).json({
@@ -135,7 +139,7 @@ export const forgotPassword = TryCatch(async (req, res) => {
 
   if (!user) return res.status(404).json({ message: "No User this email" });
 
-  const token = jwt.sign({ email }, process.env.forgot_Secret);
+  const token = jwt.sign({ email }, process.env.FORGOT_SECRET);
 
   const data = {
     email,
@@ -153,16 +157,16 @@ export const forgotPassword = TryCatch(async (req, res) => {
 });
 
 // reset password
-export const resetPassword = TryCatch(async (req, res) => {
-  const decodedData = jwt.verify(req.query.token, process.env.forgot_Secret);
 
-  console.log(req.query.token);
+export const resetPassword = TryCatch(async (req, res) => {
+  const decodedData = jwt.verify(req.query.token, process.env.FORGOT_SECRET);
 
   const user = await User.findOne({ email: decodedData.email });
 
   if (!user)
     return res.status(404).json({
-      message: "No User this email",
+      message: "User not found",
+      success: false,
     });
   if (user.resetPasswordExpire === null)
     return res.status(400).json({

@@ -18,6 +18,8 @@ import FAQ from "./components/Pages/Faq.jsx";
 import CourseDetails from "./components/Course/CourseDetails.jsx";
 import StudyCourse from "./components/Course/StudyCourse.jsx";
 import Dashboard from "./components/Student/Dashboard.jsx";
+import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
+import ResetPassword from "./components/Auth/ResetPassword.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,8 @@ const router = createBrowserRouter([
       { path: "coursedetails/:id", element: <CourseDetails /> },
       { path: "study", element: <StudyCourse /> },
       { path: "dashboard", element: <Dashboard /> },
+      { path: "forgotPassword", element: <ForgotPassword /> },
+      { path: "/reset-password/:token", element: <ResetPassword /> },
     ],
   },
 ]);
