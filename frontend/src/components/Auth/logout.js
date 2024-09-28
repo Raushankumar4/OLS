@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AUTH_URL } from "../../contsant";
+import { AUTH_URL } from "../../constant";
 import { logout } from "../../redux/store/slices/authSlice";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 

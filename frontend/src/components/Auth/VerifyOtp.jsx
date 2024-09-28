@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AUTH_URL } from "../../contsant";
+import { AUTH_URL } from "../../constant";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

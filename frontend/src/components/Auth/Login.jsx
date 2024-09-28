@@ -3,20 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { InputField } from "../InputArea/InputField";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { AUTH_URL } from "../../contsant";
+import { AUTH_URL } from "../../constant.js";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 import { login } from "../../redux/store/slices/authSlice";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [userInput, settUserInput] = useState({
+  const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const validateForm = () => {
     const newErrors = {};
     if (!userInput.email) {
@@ -26,27 +27,29 @@ const Login = () => {
       newErrors.password = "Password is required";
     }
     setError(newErrors);
-    return Object.keys(error).length === 0 ? null : error;
+    return Object.keys(newErrors).length === 0 ? null : newErrors;
   };
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    settUserInput((prev) => ({ ...prev, [name]: value }));
+    setUserInput((prev) => ({ ...prev, [name]: value }));
   };
 
   const loginUser = async (e) => {
     e.preventDefault();
-    if (validateForm()) return;
+    const validationErrors = validateForm();
+    if (validationErrors) return;
+
     try {
       setIsLoading(true);
       const { data } = await axios.post(`${AUTH_URL}/login`, userInput);
-      setIsLoading(false);
       dispatch(login({ token: data?.token }));
       successToast(data?.message);
       navigate("/courses");
     } catch (error) {
+      errorToast(error.response?.data?.message || error.message);
+    } finally {
       setIsLoading(false);
-      errorToast(error.response.data.message || error.message);
     }
   };
 
@@ -96,7 +99,11 @@ const Login = () => {
               disabled={isLoading}
               className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-200 dark:bg-blue-500 dark:hover:bg-blue-600"
             >
-              {isLoading ? <LoadingSpinner /> : "Login"}
+              {isLoading ? (
+                <LoadingSpinner className="inline-block" />
+              ) : (
+                "Login"
+              )}
             </button>
             <div className="mt-4 text-center">
               <Link

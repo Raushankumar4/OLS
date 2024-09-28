@@ -17,6 +17,7 @@ import Policy from "./components/Pages/Policy.jsx";
 import FAQ from "./components/Pages/Faq.jsx";
 import CourseDetails from "./components/Course/CourseDetails.jsx";
 import StudyCourse from "./components/Course/StudyCourse.jsx";
+import Dashboard from "./components/Student/Dashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,15 +25,16 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Home /> },
-      { path: "/register", element: <Register /> },
-      { path: "/verifyOtp", element: <VerifyOtp /> },
-      { path: "/login", element: <Login /> },
-      { path: "/courses", element: <Courses /> },
-      { path: "/about", element: <About /> },
-      { path: "/policy", element: <Policy /> },
-      { path: "/faq", element: <FAQ /> },
-      { path: "/coursedetails/:id", element: <CourseDetails /> },
-      { path: "/study", element: <StudyCourse /> },
+      { path: "register", element: <Register /> },
+      { path: "verifyOtp", element: <VerifyOtp /> },
+      { path: "login", element: <Login /> },
+      { path: "courses", element: <Courses /> },
+      { path: "about", element: <About /> },
+      { path: "policy", element: <Policy /> },
+      { path: "faq", element: <FAQ /> },
+      { path: "coursedetails/:id", element: <CourseDetails /> },
+      { path: "study", element: <StudyCourse /> },
+      { path: "dashboard", element: <Dashboard /> },
     ],
   },
 ]);

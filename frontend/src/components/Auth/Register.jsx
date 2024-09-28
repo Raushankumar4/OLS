@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { InputField } from "../InputArea/InputField";
 import axios from "axios";
-import { AUTH_URL } from "../../contsant";
+import { AUTH_URL } from "../../constant";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 import { useDispatch } from "react-redux";
 import { setActivationToken } from "../../redux/store/slices/authSlice";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [userInput, setUserInput] = useState({
@@ -57,7 +57,8 @@ const Register = () => {
 
   const registerUser = async (e) => {
     e.preventDefault();
-    if (validateForm()) return;
+    const validationErrors = validateForm();
+    if (validationErrors) return;
     try {
       setIsLoading(true);
       const formData = new FormData();
@@ -165,14 +166,18 @@ const Register = () => {
                 isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-500"
               } transition`}
             >
-              {isLoading ? <LoadingSpinner /> : "Register"}
+              {isLoading ? (
+                <LoadingSpinner className="inline-block" />
+              ) : (
+                "Register"
+              )}
             </button>
           </form>
           <p className="mt-4 text-center text-gray-600 dark:text-gray-300">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-600 underline">
+            <Link to="/login" className="text-blue-600 underline">
               Login here
-            </a>
+            </Link>
           </p>
         </div>
       </div>

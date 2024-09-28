@@ -6,14 +6,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { useSelector } from "react-redux";
 
 const App = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const navigate = useNavigate();
+  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate("/");
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   return (
     <div className="dark:bg-gray-900">

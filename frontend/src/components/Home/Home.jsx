@@ -31,7 +31,11 @@ const Home = () => {
           to="/register"
           className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300"
         >
-          {isAuthenticated ? "Go to Dashboard" : "Get Started"}
+          {isAuthenticated ? (
+            <Link to="/dashboard">Go to Dashboard</Link>
+          ) : (
+            "Get Started"
+          )}
         </Link>
       </header>
 
