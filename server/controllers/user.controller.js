@@ -6,8 +6,7 @@ import { Course } from "../models/course.model.js";
 
 // user profile
 export const userProfile = TryCatch(async (req, res) => {
-  const { id } = req.params;
-  const user = await User.findById(id).select("-password");
+  const user = await User.findById(req.user._id).select("-password");
   if (!user) return res.status(404).json({ message: "User not found" });
   return res.status(200).json({ user });
 });
@@ -90,7 +89,3 @@ export const myCourse = TryCatch(async (req, res) => {
 });
 
 // add course progress
-
-
-
-

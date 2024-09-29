@@ -27,11 +27,7 @@ const ForgotPassword = () => {
         email,
       });
       successToast(response.data.message);
-      e;
-
-      if (response.data.success) {
-        navigate("/login");
-      }
+      navigate("/login");
     } catch (error) {
       errorToast(error.response?.data.message || "Something went wrong!");
     } finally {

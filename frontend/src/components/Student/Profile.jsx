@@ -1,6 +1,12 @@
 import React from "react";
+import { useGetProfile } from "../../utils/useGetProfile";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+  const user = useSelector((state) => state.user.user);
+
+  useGetProfile();
+
   return (
     <div className="max-w-4xl mx-auto mb-6 bg-white p-6 rounded-lg shadow-md">
       <div className="flex items-center justify-between mb-6 flex-wrap">

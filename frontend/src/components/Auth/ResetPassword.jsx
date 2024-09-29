@@ -37,6 +37,7 @@ const ResetPassword = () => {
     e.preventDefault();
     const validationErrors = validateForm();
     if (validationErrors) return;
+
     setIsLoading(true);
     try {
       const { data } = await axios.post(
@@ -47,9 +48,7 @@ const ResetPassword = () => {
       );
 
       successToast(data?.message);
-      if (response.data.success) {
-        navigate("/login");
-      }
+      navigate("/login");
     } catch (err) {
       errorToast(err?.response?.data?.message || err.message);
     } finally {
@@ -63,13 +62,13 @@ const ResetPassword = () => {
         <h2 className="text-2xl font-bold text-center mb-6">
           Reset Your Password
         </h2>
-
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <InputField
               label="New Password"
               type="password"
               name="password"
+              disabled={isLoading}
               value={userInput.password}
               onChange={(e) =>
                 setUserInput({ ...userInput, password: e.target.value })
@@ -77,7 +76,6 @@ const ResetPassword = () => {
               error={error.password}
               placeholder="Enter new password"
             />
-
             <InputField
               label="Confirm Password"
               type="password"
@@ -94,8 +92,7 @@ const ResetPassword = () => {
               placeholder="Confirm new password"
             />
           </div>
-
-          <LoadingButton isLoading={false} type="submit">
+          <LoadingButton isLoading={isLoading} type="submit">
             Reset Password
           </LoadingButton>
         </form>
