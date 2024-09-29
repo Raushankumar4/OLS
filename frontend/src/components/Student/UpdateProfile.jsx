@@ -1,21 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputField } from "../InputArea/InputField";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { USER_URL } from "../../constant";
 import { errorToast, successToast } from "../Toast/ToastNotify";
+import { updateUser } from "../../redux/store/slices/userSlice";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const UpdateProfile = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState({
     name: user?.name || "",
-    profileImage: user?.profileImage || null,
+    profileImage: null,
   });
 
-  const [imagePreview, setImagePreview] = useState(user?.profileImage);
+  const [imagePreview, setImagePreview] = useState(user?.profileImage || null);
   const [isLoading, setIsLoading] = useState(false);
   const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (user) {
+      setUserProfile({
+        name: user.name,
+        profileImage: null,
+      });
+      setImagePreview(user.profileImage);
+    }
+  }, [user, isOpen]);
 
   const handleOnChange = (e) => {
     const { name, value, files } = e.target;
@@ -35,14 +49,14 @@ const UpdateProfile = ({ isOpen, onClose }) => {
 
   const updateUserProfile = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     const formData = new FormData();
     formData.append("name", userProfile.name);
     if (userProfile.profileImage) {
       formData.append("profileImage", userProfile.profileImage);
     }
+    setIsLoading(true);
     try {
-      const { data } = axios.put(
+      const { data } = await axios.put(
         `${USER_URL}/update-profile/${user?._id}`,
         formData,
         {
@@ -54,6 +68,9 @@ const UpdateProfile = ({ isOpen, onClose }) => {
       );
 
       successToast(data?.message);
+
+      dispatch(updateUser(data.updateProfile));
+
       onClose();
     } catch (error) {
       errorToast(error?.response?.data?.message || error.message);
@@ -138,9 +155,10 @@ const UpdateProfile = ({ isOpen, onClose }) => {
             </button>
             <button
               type="submit"
+              disabled={isLoading}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
             >
-              Save
+              {isLoading ? <LoadingSpinner /> : "Save"}
             </button>
           </div>
         </form>

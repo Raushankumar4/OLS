@@ -7,6 +7,7 @@ import { setUser } from "../redux/store/slices/userSlice";
 export const useGetProfile = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const refresh = useSelector((state) => state.user.refresh);
 
   useEffect(() => {
     const getProfile = async () => {
@@ -25,5 +26,5 @@ export const useGetProfile = () => {
       }
     };
     getProfile();
-  }, [token]);
+  }, [token, refresh]);
 };
