@@ -1,10 +1,11 @@
-import React from "react";
-import { useGetProfile } from "../../utils/useGetProfile";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import UpdateProfile from "./UpdateProfile";
+import { useGetProfile } from "../../utils/useGetProfile";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.user);
-
+  const [isModalOpen, setModalOpen] = useState(false);
   useGetProfile();
 
   return (
@@ -12,16 +13,22 @@ const Profile = () => {
       <div className="flex items-center justify-between mb-6 flex-wrap">
         <div className="flex items-center">
           <img
-            src="https://via.placeholder.com/150"
+            src={
+              user?.profileImage ||
+              "https://www.tech101.in/wp-content/uploads/2018/07/blank-profile-picture.png"
+            }
             alt="Profile"
             className="w-24 h-24 rounded-full border border-gray-300 mr-4"
           />
           <div>
-            <h2 className="text-2xl font-semibold">John Doe</h2>
-            <p className="text-gray-600">john.doe@example.com</p>
+            <h2 className="text-2xl font-semibold">{user?.name}</h2>
+            <p className="text-gray-600">{user?.email}</p>
           </div>
         </div>
-        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+        <button
+          onClick={() => setModalOpen(true)}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        >
           Edit
         </button>
       </div>
@@ -35,9 +42,9 @@ const Profile = () => {
       <div>
         <h3 className="text-xl font-semibold mb-2">Enrolled Courses</h3>
         <ul className="list-disc list-inside">
-          <li className="text-gray-700">Mathematics</li>
-          <li className="text-gray-700">Science</li>
-          <li className="text-gray-700">History</li>
+          <li className="text-gray-700">
+            {user?.enrolledCourses || "No courses enrolled"}
+          </li>
         </ul>
       </div>
 
@@ -47,6 +54,8 @@ const Profile = () => {
           A passionate learner who enjoys exploring new fields of knowledge.
         </p>
       </div>
+
+      <UpdateProfile isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
 };

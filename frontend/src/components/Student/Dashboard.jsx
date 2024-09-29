@@ -3,10 +3,12 @@ import Sidebar from "../SideBar/SideBar";
 import Profile from "../Student/Profile";
 import Courses from "../Course/Courses";
 import CourseProgress from "./CourseProgres";
+import { useSelector } from "react-redux";
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [activeView, setActiveView] = useState("CourseProgress");
+  const user = useSelector((state) => state.user.user);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -54,7 +56,7 @@ const Dashboard = () => {
           isOpen ? "lg:ml-64" : ""
         }`}
       >
-        <h1 className="text-2xl font-bold mb-4">Welcome Back, Student!</h1>
+        <h1 className="text-2xl font-bold mb-4">Welcome Back, {user?.name} </h1>
         {renderActiveView()}
       </main>
     </div>

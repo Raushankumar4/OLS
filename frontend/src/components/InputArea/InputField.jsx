@@ -12,6 +12,7 @@ export const InputField = ({
   disabled = false,
   error = null,
   key,
+  className,
 }) => {
   return (
     <div className="mb-4">
@@ -32,7 +33,9 @@ export const InputField = ({
         disabled={disabled}
         key={key}
         error={error}
-        className="block w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring focus:ring-blue-500 sm:p-2 md:p-3"
+        className={`block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring focus:ring-blue-500 sm:p-2 md:p-2 ${
+          className ? className : ""
+        }`}
         aria-label={label}
       />
       <span className="text-red-500 ">{error ? error : ""}</span>
