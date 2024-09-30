@@ -28,13 +28,21 @@ const Home = () => {
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
           Learn from the best courses anytime, anywhere.
         </p>
-
-        <Link
-          to={user ? "/dashboard" : "/login"}
-          className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
-        >
-          {user ? "Go to Dashboard" : "Get Started"}
-        </Link>
+        {user ? (
+          <Link
+            to="/dashboard"
+            className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Study
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Get Started
+          </Link>
+        )}
       </header>
 
       {/* Courses Section */}
