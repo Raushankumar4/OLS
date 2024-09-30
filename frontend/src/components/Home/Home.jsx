@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.user.user);
+  const isAuthenticated = !!user;
+
   const testimonialSettings = {
     dots: true,
     infinite: true,

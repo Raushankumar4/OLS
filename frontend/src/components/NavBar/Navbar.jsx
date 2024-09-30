@@ -9,7 +9,7 @@ const Navbar = () => {
     const savedMode = localStorage.getItem("darkMode");
     return savedMode ? JSON.parse(savedMode) : false;
   });
-
+  const user = useSelector((state) => state.user.user);
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const dispatch = useDispatch();
@@ -118,7 +118,10 @@ const Navbar = () => {
                 className="flex items-center focus:outline-none"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src={
+                    user?.profileImage ||
+                    "https://www.tech101.in/wp-content/uploads/2018/07/blank-profile-picture.png"
+                  }
                   alt="User Profile"
                   className="rounded-full h-8 w-8"
                 />

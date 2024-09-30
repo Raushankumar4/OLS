@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import UpdateProfile from "./UpdateProfile";
+import ChangePassword from "../Auth/UpdatePassword";
 import { useGetProfile } from "../../utils/useGetProfile";
 
 const Profile = () => {
   const user = useSelector((state) => state.user.user);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isPasswordModalOpen, setPasswordModalOpen] = useState(false);
   useGetProfile();
 
   return (
@@ -25,12 +27,20 @@ const Profile = () => {
             <p className="text-gray-600">{user?.email}</p>
           </div>
         </div>
-        <button
-          onClick={() => setModalOpen(true)}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-        >
-          Edit
-        </button>
+        <div className="flex space-x-4">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => setPasswordModalOpen(true)}
+            className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+          >
+            Change Password
+          </button>
+        </div>
       </div>
 
       <div className="mb-4">
@@ -56,6 +66,10 @@ const Profile = () => {
       </div>
 
       <UpdateProfile isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      <ChangePassword
+        isOpen={isPasswordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+      />
     </div>
   );
 };

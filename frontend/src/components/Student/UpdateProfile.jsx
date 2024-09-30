@@ -6,6 +6,14 @@ import { USER_URL } from "../../constant";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 import { updateUser } from "../../redux/store/slices/userSlice";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { motion } from "framer-motion";
+import { AiOutlineClose } from "react-icons/ai";
+
+const modalVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.9 },
+};
 
 const UpdateProfile = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -68,9 +76,7 @@ const UpdateProfile = ({ isOpen, onClose }) => {
       );
 
       successToast(data?.message);
-
       dispatch(updateUser(data.updateProfile));
-
       onClose();
     } catch (error) {
       errorToast(error?.response?.data?.message || error.message);
@@ -80,8 +86,27 @@ const UpdateProfile = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 p-4">
-      <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4`}>
+      {isOpen && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 backdrop-blur-sm"></div>
+      )}
+      <motion.div
+        className="bg-white p-6 rounded-lg shadow-md max-w-md w-full"
+        initial="hidden"
+        animate={isOpen ? "visible" : "exit"}
+        exit="exit"
+        variants={modalVariants}
+        transition={{ duration: 0.3 }}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">Edit Profile</h2>
+          <AiOutlineClose
+            className="text-gray-600 cursor-pointer hover:text-gray-800 transition"
+            size={24}
+            onClick={onClose}
+          />
+        </div>
+
         <form onSubmit={updateUserProfile}>
           {/* Profile Image */}
           <div className="flex flex-col items-center mb-4">
@@ -118,10 +143,6 @@ const UpdateProfile = ({ isOpen, onClose }) => {
             )}
           </div>
 
-          <h2 className="text-xl font-semibold mb-4 text-center">
-            Edit Profile
-          </h2>
-
           <InputField
             label="Name"
             onChange={handleOnChange}
@@ -145,14 +166,7 @@ const UpdateProfile = ({ isOpen, onClose }) => {
             rows="2"
           />
 
-          <div className="flex flex-col sm:flex-row justify-end">
-            <button
-              onClick={onClose}
-              className="mb-2 sm:mb-0 sm:mr-4 px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition duration-200"
-              type="button"
-            >
-              Cancel
-            </button>
+          <div className="">
             <button
               type="submit"
               disabled={isLoading}
@@ -162,7 +176,7 @@ const UpdateProfile = ({ isOpen, onClose }) => {
             </button>
           </div>
         </form>
-      </div>
+      </motion.div>
     </div>
   );
 };

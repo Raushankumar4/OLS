@@ -9,6 +9,9 @@ const toastVariants = {
   exit: { opacity: 0, y: -20 },
 };
 
+const notificationStyles =
+  "flex items-center p-2 bg-white shadow-lg rounded-lg border-l-4 transition-transform transform hover:scale-105";
+
 const successToast = (message) => {
   toast.custom(
     (t) => (
@@ -18,10 +21,13 @@ const successToast = (message) => {
         exit="exit"
         variants={toastVariants}
         transition={{ duration: 0.3 }}
-        className={`flex items-center rounded-lg shadow-lg transition-transform transform hover:scale-105`}
+        className={`${notificationStyles} border-green-500`}
       >
-        <AiOutlineCheckCircle className="text-3xl mr-2" />
-        <span>{message} </span>
+        <AiOutlineCheckCircle className="text-green-500 text-3xl mr-2" />
+        <div>
+          <span className="font-bold">Success!</span>
+          <p>{message}</p>
+        </div>
       </motion.div>
     ),
     {
@@ -39,10 +45,13 @@ const errorToast = (message) => {
         exit="exit"
         variants={toastVariants}
         transition={{ duration: 0.3 }}
-        className={`flex items-center  rounded-lg shadow-lg transition-transform transform hover:scale-105`}
+        className={`${notificationStyles} border-red-500`}
       >
-        <AiOutlineCloseCircle className="text-3xl mr-2 p-2" />
-        <span className="">{message} </span>
+        <AiOutlineCloseCircle className="text-red-500 text-3xl mr-2" />
+        <div>
+          <span className="font-bold">Error!</span>
+          <p>{message}</p>
+        </div>
       </motion.div>
     ),
     {
