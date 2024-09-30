@@ -20,9 +20,7 @@ import {
 
 const router = Router();
 
-router
-  .route("/create-course")
-  .post(upload.single("image"), isAuthenticated, isAdmin, createCourse);
+router.route("/create-course").post(upload.single("image"), createCourse);
 router
   .route("/update-course/:id")
   .put(isAuthenticated, isAdmin, upload.single("image"), updateCourse);

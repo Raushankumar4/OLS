@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 import LoadingButton from "../LoadingSpinner/isLoading";
 import { motion } from "framer-motion";
-import { AiOutlineClose } from "react-icons/ai"; // Import close icon
+import { AiOutlineClose } from "react-icons/ai";
 
 const modalVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -81,7 +81,6 @@ const UpdatePassword = ({ isOpen, onClose }) => {
 
   return (
     <div className={`fixed inset-0 ${isOpen ? "block" : "hidden"}`}>
-      {/* Backdrop for blur effect */}
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md"></div>
       )}

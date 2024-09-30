@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user.user);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -22,7 +22,11 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
       aria-hidden={!isOpen}
       role="navigation"
     >
-      <h2 className="text-xl font-bold mb-4">Student Dashboard</h2>
+      <h2 className="text-xl font-bold mb-4">
+        {user?.mainRole === "superAdmin"
+          ? "Admin Dashboard"
+          : "Student Dashboard"}
+      </h2>
       <button
         className="lg:hidden mb-4 text-sm text-gray-400 hover:text-white"
         onClick={toggleSidebar}
@@ -32,7 +36,13 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
       <ul>
         <li className="mb-2">
           <button
-            onClick={() => onLinkClick("CourseProgress")}
+            onClick={() => {
+              const route =
+                user?.mainRole === "superAdmin"
+                  ? "Adminhome"
+                  : "CourseProgress";
+              onLinkClick(route);
+            }}
             className="hover:underline"
           >
             Home
@@ -40,7 +50,11 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
         </li>
         <li className="mb-2">
           <button
-            onClick={() => onLinkClick("profile")}
+            onClick={() => {
+              const route =
+                user?.mainRole === "superAdmin" ? "Adminprofile" : "profile";
+              onLinkClick(route);
+            }}
             className="hover:underline"
           >
             Profile
@@ -48,12 +62,41 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
         </li>
         <li className="mb-2">
           <button
-            onClick={() => onLinkClick("mycourses")}
+            onClick={() => {
+              const route =
+                user?.mainRole === "superAdmin" ? "AdminCourses" : "mycourses";
+              onLinkClick(route);
+            }}
             className="hover:underline"
           >
             Courses
           </button>
         </li>
+        {user?.mainRole === "superAdmin" && (
+          <ul>
+            <li className="mb-2">
+              <button
+                onClick={() => {
+                  onLinkClick("CreateCourse");
+                }}
+                className="hover:underline"
+              >
+                Create Course
+              </button>
+            </li>
+            <li className="mb-2">
+              <button
+                onClick={() => {
+                  onLinkClick("CreateLecture");
+                }}
+                className="hover:underline"
+              >
+                Create Lecture
+              </button>
+            </li>
+          </ul>
+        )}
+
         <li className="mb-2">
           <button onClick={handleLogout} className="hover:underline">
             Logout

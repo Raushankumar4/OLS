@@ -49,7 +49,10 @@ const Navbar = () => {
       className={`bg-white dark:bg-gray-800 p-4 shadow-md sticky top-0 z-50`}
     >
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-xl font-bold text-gray-800 dark:text-white hidden md:block">
+        <div
+          onClick={scrollToTop}
+          className="text-xl cursor-pointer font-bold text-gray-800 dark:text-white hidden md:block"
+        >
           ELearning
         </div>
         <div className="md:hidden">
@@ -128,12 +131,13 @@ const Navbar = () => {
               </button>
             )}
             {profileOpen && isAuthenticated && (
-              <div className="absolute right-0 top-1 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md">
+              <div className="absolute right-0 top-11 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-md">
                 <Link
-                  to="/profile"
+                  onClick={toggleProfileMenu}
+                  to="/dashboard"
                   className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
-                  Profile
+                  Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}

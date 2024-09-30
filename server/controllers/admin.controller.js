@@ -13,31 +13,12 @@ export const createCourse = TryCatch(async (req, res) => {
     topics,
     category,
     language,
-    courseLevel,
     courseTag,
-    numberOfReviews,
-    courseOverview,
-    duration,
-    title,
+    overview,
     createdBy,
+    courseLevel,
   } = req.body;
-  if (
-    !courseName ||
-    !description ||
-    !title ||
-    !price ||
-    !topics ||
-    !category ||
-    !language ||
-    !courseLevel ||
-    !courseTag ||
-    !numberOfReviews ||
-    !courseOverview ||
-    !duration ||
-    !createdBy
-  ) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
+
   let courseImageUrl = null;
   if (req.file) {
     const localFilePath = req.file.path;
@@ -62,17 +43,14 @@ export const createCourse = TryCatch(async (req, res) => {
     courseName,
     description,
     price,
-    image: courseImageUrl,
     topics,
+    image: courseImageUrl,
     category,
     language,
-    courseLevel,
     courseTag,
-    title,
-    numberOfReviews,
-    courseOverview,
-    duration,
+    overview,
     createdBy,
+    courseLevel,
   });
   return res
     .status(200)
@@ -89,12 +67,10 @@ export const updateCourse = TryCatch(async (req, res) => {
     topics,
     category,
     language,
-    courseLevel,
     courseTag,
-    numberOfReviews,
-    courseOverview,
-    duration,
-    title,
+    overview,
+    createdBy,
+    courseLevel,
   } = req.body;
 
   const courseImageLocalPath = req.file
@@ -115,10 +91,8 @@ export const updateCourse = TryCatch(async (req, res) => {
   if (language) update.language = language;
   if (courseLevel) update.courseLevel = courseLevel;
   if (courseTag) update.courseTag = courseTag;
-  if (numberOfReviews) update.numberOfReviews = numberOfReviews;
-  if (courseOverview) update.courseOverview = courseOverview;
-  if (duration) update.duration = duration;
-  if (title) update.title = title;
+  if (overview) update.overview = overview;
+  if (createdBy) update.createdBy = createdBy;
   if (courseImageLocalPath) {
     const image = await uploadOnCloudnary(courseImageLocalPath);
     update.image = image.url;

@@ -2,7 +2,7 @@ import React from "react";
 
 const CourseDetails = () => {
   return (
-    <div className="max-w-6xl mx-auto p-6 min-h-[110vh]  dark:bg-gray-900 flex flex-col md:flex-row">
+    <div className="max-w-6xl mx-auto p-6 min-h-[110vh] dark:bg-gray-900 flex flex-col md:flex-row">
       {/* Left Side: Course Image, Buy Option, and Student Reviews */}
       <div className="flex-none w-full md:w-1/3 p-4">
         <img
@@ -68,6 +68,11 @@ const CourseDetails = () => {
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
           Instructor: Jane Doe
         </h4>
+
+        <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
+          Course Language:
+        </h4>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">English</p>
 
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
           Course Content:

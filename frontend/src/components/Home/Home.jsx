@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 
 const Home = () => {
   const user = useSelector((state) => state.user.user);
-  const isAuthenticated = !!user;
 
   const testimonialSettings = {
     dots: true,
@@ -29,15 +28,12 @@ const Home = () => {
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
           Learn from the best courses anytime, anywhere.
         </p>
+
         <Link
-          to="/register"
-          className="mt-8 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+          to={user ? "/dashboard" : "/login"}
+          className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
         >
-          {isAuthenticated ? (
-            <Link to="/dashboard">Go to Dashboard</Link>
-          ) : (
-            "Get Started"
-          )}
+          {user ? "Go to Dashboard" : "Get Started"}
         </Link>
       </header>
 
@@ -50,7 +46,7 @@ const Home = () => {
       <section className="bg-gray-100 dark:bg-gray-900 py-20">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Our Students Are{" "}
+            Our Students Are
             <span className="text-3xl font-bold">Our Strength</span>
           </h2>
           <h1>See What They Say About Us</h1>
