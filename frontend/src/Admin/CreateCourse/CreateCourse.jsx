@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CourseDetails from "./CourseDetails";
 import TopicsOverview from "./TopicOverview";
 import CategorySelect from "./CategorySelect";
@@ -6,8 +6,18 @@ import { InputField } from "../../components/InputArea/InputField";
 import ImageUpload from "./ImageUpload";
 import FormSubmit from "./FormSubmit";
 import useCreateCourse from "../../hooks/useCreateCourse";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CreateCourse = () => {
+  const user = useSelector((state) => state.user.user);
+  const navivgate = useNavigate();
+
+  useEffect(() => {
+    if (user && user?.role !== "admin") {
+      navivgate("/");
+    }
+  }, [user, navivgate]);
   const {
     userInput,
     addTopic,

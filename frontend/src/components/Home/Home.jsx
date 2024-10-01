@@ -3,6 +3,8 @@ import Slider from "react-slick";
 import CourseCard from "../Course/CourseCard";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useGetAllCourse } from "../../hooks/useGetAllCourse";
+import { useGetProfile } from "../../utils/useGetProfile";
 
 const Home = () => {
   const user = useSelector((state) => state.user.user);
@@ -14,6 +16,8 @@ const Home = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+  useGetProfile();
+  useGetAllCourse();
 
   return (
     <div className="bg-white dark:bg-gray-800">

@@ -1,30 +1,31 @@
 import { useEffect } from "react";
-import axios from "axios";
-import { USER_URL } from "../constant";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../redux/store/slices/userSlice";
+import { ADMIN } from "../constant";
+import axios from "axios";
+import { setCourse } from "../redux/store/slices/courseSlice";
 
-export const useGetProfile = () => {
+export const useGetAllCourse = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
-  // const refresh = useSelector((state) => state.user.refresh);
 
   useEffect(() => {
-    const getProfile = async () => {
+    const getAllCourse = async () => {
       if (!token) return;
       try {
-        const { data } = await axios.get(`${USER_URL}/getmyprofile`, {
+        const { data } = await axios.get(`${ADMIN}/get-all-course`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           withCredentials: true,
         });
-        dispatch(setUser(data?.user));
+        dispatch(setCourse(data?.courses));
+        console.log(data);
       } catch (error) {
-        console.error("Error fetching profile:", error);
+        console.log(error);
       }
     };
-    getProfile();
+
+    getAllCourse();
   }, [token]);
 };

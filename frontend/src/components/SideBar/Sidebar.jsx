@@ -23,9 +23,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
       role="navigation"
     >
       <h2 className="text-xl font-bold mb-4">
-        {user?.mainRole === "superAdmin"
-          ? "Admin Dashboard"
-          : "Student Dashboard"}
+        {user?.role === "admin" ? "Admin Dashboard" : "Student Dashboard"}
       </h2>
       <button
         className="lg:hidden mb-4 text-sm text-gray-400 hover:text-white"
@@ -38,9 +36,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
           <button
             onClick={() => {
               const route =
-                user?.mainRole === "superAdmin"
-                  ? "Adminhome"
-                  : "CourseProgress";
+                user?.role === "admin" ? "Adminhome" : "CourseProgress";
               onLinkClick(route);
             }}
             className="hover:underline"
@@ -60,19 +56,8 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
             Profile
           </button>
         </li>
-        <li className="mb-2">
-          <button
-            onClick={() => {
-              const route =
-                user?.mainRole === "superAdmin" ? "AdminCourses" : "mycourses";
-              onLinkClick(route);
-            }}
-            className="hover:underline"
-          >
-            Courses
-          </button>
-        </li>
-        {user?.mainRole === "superAdmin" && (
+
+        {user?.role === "admin" && (
           <ul>
             <li className="mb-2">
               <button
@@ -92,6 +77,38 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
                 className="hover:underline"
               >
                 Create Lecture
+              </button>
+            </li>
+            <li className="mb-2">
+              <button
+                onClick={() => {
+                  const route =
+                    user?.role === "admin" ? "AdminCourses" : "mycourses";
+                  onLinkClick(route);
+                }}
+                className="hover:underline"
+              >
+                {user?.role === "admin" ? "All Courses" : "My Courses"}
+              </button>
+            </li>
+            <li className="mb-2">
+              <button
+                onClick={() => {
+                  onLinkClick("CreateLecture");
+                }}
+                className="hover:underline"
+              >
+                All Lectures
+              </button>
+            </li>
+            <li className="mb-2">
+              <button
+                onClick={() => {
+                  onLinkClick("CreateLecture");
+                }}
+                className="hover:underline"
+              >
+                Update Role
               </button>
             </li>
           </ul>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { ADMIN } from "../constant";
 import { errorToast, successToast } from "../components/Toast/ToastNotify";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const useCreateCourse = () => {
   const [userInput, setUserInput] = useState({
@@ -25,6 +26,7 @@ const useCreateCourse = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({});
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
 
   const validateForm = () => {
     const newErrors = {};
@@ -135,7 +137,13 @@ const useCreateCourse = () => {
       formData.append("overview", userInput.overview);
       formData.append("topics", userInput.topics);
 
-      const { data } = await axios.post(`${ADMIN}/create-course`, formData);
+      const { data } = await axios.post(`${ADMIN}/create-course`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
       successToast(data.message);
       navigate("/createLectures");
     } catch (error) {

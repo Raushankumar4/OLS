@@ -20,7 +20,6 @@ import StudyCourse from "./components/Course/StudyCourse.jsx";
 import Dashboard from "./components/Student/Dashboard.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
 import ResetPassword from "./components/Auth/ResetPassword.jsx";
-import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +39,6 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       { path: "forgotPassword", element: <ForgotPassword /> },
       { path: "/reset-password/:token", element: <ResetPassword /> },
-      { path: "/create", element: <CreateCourse /> },
     ],
   },
 ]);

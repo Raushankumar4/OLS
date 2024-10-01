@@ -34,6 +34,10 @@ export const createCourse = TryCatch(async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
+  const user = await User.findById(req.user._id);
+  if (user && user.role !== "admin")
+    return res.status(403).json({ message: "Only admin can create course" });
+
   let courseImageUrl = null;
   if (req.file) {
     const localFilePath = req.file.path;
