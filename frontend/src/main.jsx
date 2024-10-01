@@ -20,7 +20,7 @@ import StudyCourse from "./components/Course/StudyCourse.jsx";
 import Dashboard from "./components/Student/Dashboard.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
 import ResetPassword from "./components/Auth/ResetPassword.jsx";
-import CreateCourse from "./Admin/CreateCourse.jsx";
+import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
 
 const router = createBrowserRouter([
   {

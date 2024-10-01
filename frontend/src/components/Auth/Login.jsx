@@ -1,56 +1,25 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { InputField } from "../InputArea/InputField";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { AUTH_URL } from "../../constant.js";
-import { errorToast, successToast } from "../Toast/ToastNotify";
-import { login } from "../../redux/store/slices/authSlice";
+import useLogin from "../../hooks/useLogin";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState({});
-  const dispatch = useDispatch();
+  const { isLoading, error, loginUser } = useLogin();
   const navigate = useNavigate();
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!userInput.email) {
-      newErrors.email = "Email is required";
-    }
-    if (!userInput.password) {
-      newErrors.password = "Password is required";
-    }
-    setError(newErrors);
-    return Object.keys(newErrors).length === 0 ? null : newErrors;
-  };
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setUserInput((prev) => ({ ...prev, [name]: value }));
   };
 
-  const loginUser = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
-    if (validationErrors) return;
-
-    try {
-      setIsLoading(true);
-      const { data } = await axios.post(`${AUTH_URL}/login`, userInput);
-      dispatch(login({ token: data?.token }));
-      successToast(data?.message);
-      navigate("/courses");
-    } catch (error) {
-      errorToast(error.response?.data?.message || error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    loginUser(userInput, navigate);
   };
 
   return (
@@ -67,7 +36,7 @@ const Login = () => {
           <h2 className="text-2xl font-semibold mb-6 text-center">
             Student Login
           </h2>
-          <form onSubmit={loginUser}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <InputField
                 label="Email"
