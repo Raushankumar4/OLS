@@ -56,6 +56,18 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
             Profile
           </button>
         </li>
+        <li className="mb-2">
+          <button
+            onClick={() => {
+              const route =
+                user?.role === "admin" ? "Adminprofile" : "mycourses";
+              onLinkClick(route);
+            }}
+            className="hover:underline"
+          >
+            My Courses
+          </button>
+        </li>
 
         {user?.role === "admin" && (
           <ul>

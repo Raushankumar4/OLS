@@ -5,6 +5,8 @@ import Courses from "../Course/Courses";
 import CourseProgress from "./CourseProgres";
 import { useSelector } from "react-redux";
 import CreateCourse from "../../Admin/CreateCourse/CreateCourse";
+import MyCourse from "./MyCourse";
+
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -25,7 +27,7 @@ const Dashboard = () => {
       case "profile":
         return <Profile />;
       case "mycourses":
-        return <Courses />;
+        return user?.role === "admin" ? <Courses /> : <MyCourse />;
       case "CreateCourse":
         return (
           <div className="overflow-auto mb-20">

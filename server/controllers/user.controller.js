@@ -83,9 +83,18 @@ export const otherUsers = TryCatch(async (req, res) => {
 // my course
 
 export const myCourse = TryCatch(async (req, res) => {
-  const courses = await Course.find({ _id: req.user.subscription });
+  const { id } = req.params;
 
-  res.json({ message: "My Course", courses });
+  if (!id) return res.status(400).json({ message: "ID is required" });
+
+  const user = await User.findById(id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  const userCourses = await Course.find({ _id: { $in: user.subscription } });
+  if (!userCourses)
+    return res.status(404).json({ message: "No courses found for this user" });
+
+  res.json({ message: "My Courses", userCourses });
 });
 
 // like course
