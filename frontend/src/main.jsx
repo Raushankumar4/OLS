@@ -20,6 +20,7 @@ import StudyCourse from "./components/Course/StudyCourse.jsx";
 import Dashboard from "./components/Student/Dashboard.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
 import ResetPassword from "./components/Auth/ResetPassword.jsx";
+import CoursesCards from "./components/Course/CoursesCards.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "verifyOtp", element: <VerifyOtp /> },
       { path: "login", element: <Login /> },
-      { path: "courses", element: <Courses /> },
+      { path: "courses", element: <CoursesCards /> },
       { path: "about", element: <About /> },
       { path: "policy", element: <Policy /> },
       { path: "faq", element: <FAQ /> },

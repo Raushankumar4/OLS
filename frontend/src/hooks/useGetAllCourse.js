@@ -7,6 +7,7 @@ import { setCourse } from "../redux/store/slices/courseSlice";
 export const useGetAllCourse = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const reffresh = useSelector((state) => state.course.refresh);
 
   useEffect(() => {
     const getAllCourse = async () => {
@@ -20,12 +21,11 @@ export const useGetAllCourse = () => {
           withCredentials: true,
         });
         dispatch(setCourse(data?.courses));
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
 
     getAllCourse();
-  }, [token]);
+  }, [token, reffresh]);
 };

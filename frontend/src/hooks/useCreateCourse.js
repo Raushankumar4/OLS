@@ -3,7 +3,8 @@ import axios from "axios";
 import { ADMIN } from "../constant";
 import { errorToast, successToast } from "../components/Toast/ToastNotify";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { refreshCourse } from "../redux/store/slices/courseSlice";
 
 const useCreateCourse = () => {
   const [userInput, setUserInput] = useState({
@@ -27,6 +28,8 @@ const useCreateCourse = () => {
   const [error, setError] = useState({});
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
+  const refresh = useSelector((state) => state.course.refresh);
 
   const validateForm = () => {
     const newErrors = {};
@@ -144,8 +147,9 @@ const useCreateCourse = () => {
         },
         withCredentials: true,
       });
+      dispatch(refreshCourse(!refresh));
       successToast(data.message);
-      navigate("/createLectures");
+      navigate("/");
     } catch (error) {
       errorToast(error?.response?.data?.message || error.message);
     } finally {
