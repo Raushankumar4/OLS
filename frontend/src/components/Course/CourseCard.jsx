@@ -5,7 +5,7 @@ const CourseCard = ({ courses }) => {
   return (
     <div className="max-w-sm w-full rounded-lg overflow-hidden shadow-lg bg-white transition-transform transform hover:scale-105 m-4 border border-gray-300">
       <img
-        className="w-full h-40 object-cover md:h-50 lg:h-64"
+        className="w-full h-40 object-cover md:h-40 lg:h-60"
         src={courses?.image}
         alt={courses?.courseName}
       />
@@ -20,13 +20,13 @@ const CourseCard = ({ courses }) => {
               : courses.description}
           </p>
         </div>
-        <div className="flex justify-between items-center text-gray-500 text-xs">
-          <span>{courses?.createdBy}</span>
+        <div className="flex items-start text-gray-500 text-xs">
+          <span>Instructor : {courses?.createdBy}</span>
           <span>{courses?.date}</span>
         </div>
         <Link
           to={`/coursedetails/${courses?._id}`}
-          className="mt-4 block py-2 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition duration-200 shadow-md"
+          className="my-2 block py-2 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition duration-200 shadow-md"
         >
           View Course
         </Link>

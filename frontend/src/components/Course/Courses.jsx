@@ -47,11 +47,11 @@ const Courses = () => {
   };
 
   return (
-    <div className="p-6 h-auto dark:bg-gray-900">
+    <div className="md:p-6 p-1 mx-8 h-auto dark:bg-gray-900">
       <Slider {...settings}>
         {allcourses &&
           allcourses.map((course) => (
-            <div key={course?._id} className="p-2">
+            <div key={course?._id} className="p-6 md:p-2 lg:p-4">
               <CourseCard courses={course} />
             </div>
           ))}

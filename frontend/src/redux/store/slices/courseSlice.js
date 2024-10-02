@@ -10,7 +10,6 @@ const courseSlice = createSlice({
   reducers: {
     setCourse: (state, action) => {
       state.courses = action.payload;
-      state.refresh = !state.refresh;
     },
 
     setMyCourse: (state, action) => {

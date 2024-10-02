@@ -31,7 +31,7 @@ const Home = () => {
         </p>
         {user ? (
           <Link
-            to="/dashboard"
+            to="/study"
             className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
           >
             Study
