@@ -78,10 +78,10 @@ const Login = () => {
                 error={error.email}
                 disabled={isLoading}
                 required
-                placeholder="Enter your email"
+                placeholder="Enter your Email"
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4 text-white">
               <InputField
                 label="Password"
                 type="password"
