@@ -19,6 +19,25 @@ export const createCourse = TryCatch(async (req, res) => {
     courseLevel,
   } = req.body;
 
+  if (
+    !courseName ||
+    !description ||
+    !price ||
+    !topics ||
+    !category ||
+    !language ||
+    !courseTag ||
+    !overview ||
+    !createdBy ||
+    !courseLevel
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  const user = await User.findById(req.user._id);
+  if (user && user.role !== "admin")
+    return res.status(403).json({ message: "Only admin can create course" });
+
   let courseImageUrl = null;
   if (req.file) {
     const localFilePath = req.file.path;
@@ -44,7 +63,7 @@ export const createCourse = TryCatch(async (req, res) => {
     description,
     price,
     topics,
-    image: courseImageUrl,
+    image: courseImageUrl || null,
     category,
     language,
     courseTag,

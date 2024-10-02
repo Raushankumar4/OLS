@@ -8,6 +8,7 @@ const Textarea = ({
   value,
   onChange,
   required,
+  error,
 }) => {
   return (
     <div className="mb-4">
@@ -24,6 +25,7 @@ const Textarea = ({
         name={name}
         rows="4"
       />
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 };

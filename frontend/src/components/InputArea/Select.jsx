@@ -1,6 +1,15 @@
 import React from "react";
 
-const Select = ({ id, name, label, options, value, onChange, required }) => {
+const Select = ({
+  id,
+  error,
+  name,
+  label,
+  options,
+  value,
+  onChange,
+  required,
+}) => {
   return (
     <div className="mb-4">
       <label className="block text-md font-medium text-gray-700" htmlFor={id}>
@@ -21,6 +30,7 @@ const Select = ({ id, name, label, options, value, onChange, required }) => {
           </option>
         ))}
       </select>
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 };

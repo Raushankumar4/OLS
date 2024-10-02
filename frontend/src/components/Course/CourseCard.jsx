@@ -1,78 +1,35 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import Slider from "react-slick";
-const CourseCard = () => {
-  const { id } = useParams();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const courseSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+import { Link } from "react-router-dom";
+
+const CourseCard = ({ courses }) => {
   return (
-    <div>
-      <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
-          Featured Courses
-        </h2>
-        <Slider {...courseSettings} className="mt-10 md:mx-8  mx-8">
-          {Array(4)
-            .fill()
-            .map((_, index) => (
-              <div key={index} className="grid gap-2">
-                <div className="bg-white dark:bg-gray-700 shadow-lg rounded-lg overflow-hidden mx-2 ">
-                  <img
-                    src="https://img.freepik.com/free-vector/software-development-programming-coding-learning-information-technology-courses-it-courses-all-levels-computing-hi-tech-course-concept_335657-191.jpg"
-                    alt={`Course ${index + 1}`}
-                    className="w-full h-40 object-cover"
-                  />
-                  <div className="grid gap-2 p-6">
-                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
-                      Course Title {index + 1}
-                    </h3>
-                    <p className="mt-2 text-gray-600 dark:text-gray-300">
-                      Short description of the course content goes here.
-                    </p>
-                    {isAuthenticated && (
-                      <Link
-                        to={`/coursedetails/${id}`}
-                        className="mt-4  bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-                      >
-                        View Course
-                      </Link>
-                    )}
-                    {!isAuthenticated && (
-                      <Link
-                        to="/register"
-                        className="mt-4  bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-                      >
-                        View Course
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-        </Slider>
+    <div className="max-w-sm w-full rounded-lg overflow-hidden shadow-lg bg-white transition-transform transform hover:scale-105 m-4 border border-gray-300">
+      <img
+        className="w-full h-40 object-cover md:h-40 lg:h-60"
+        src={courses?.image}
+        alt={courses?.courseName}
+      />
+      <div className="p-4 flex flex-col justify-between h-full">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition duration-200">
+            {courses?.courseName}
+          </h2>
+          <p className="text-gray-700 text-sm mb-4">
+            {courses?.description.length > 100
+              ? `${courses.description.slice(0, 40)}...`
+              : courses.description}
+          </p>
+        </div>
+        <div className="flex items-start text-gray-500 text-xs">
+          <span>Instructor : {courses?.createdBy}</span>
+          <span>{courses?.date}</span>
+        </div>
+        <Link
+          to={`/coursedetails/${courses?._id}`}
+          className="my-2 block py-2 bg-blue-500 text-white text-center rounded-lg hover:bg-blue-600 transition duration-200 shadow-md"
+        >
+          View Course
+        </Link>
       </div>
     </div>
   );

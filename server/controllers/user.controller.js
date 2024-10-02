@@ -83,9 +83,49 @@ export const otherUsers = TryCatch(async (req, res) => {
 // my course
 
 export const myCourse = TryCatch(async (req, res) => {
-  const courses = await Course.find({ _id: req.user.subscription });
+  const { id } = req.params;
 
-  res.json({ message: "My Course", courses });
+  if (!id) return res.status(400).json({ message: "ID is required" });
+
+  const user = await User.findById(id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  const userCourses = await Course.find({ _id: { $in: user.subscription } });
+  if (!userCourses)
+    return res.status(404).json({ message: "No courses found for this user" });
+
+  res.json({ message: "My Courses", userCourses });
 });
 
-// add course progress
+// like course
+
+export const likeCourse = TryCatch(async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  const course = await Course.findById(id);
+  if (!course) return res.status(404).json({ message: "Course not found" });
+
+  if (course.likes.includes(user._id)) {
+    await course.updateOne({ $pull: { likes: user._id } });
+    return res.status(200).json({ message: "unliked", success: true });
+  } else {
+    await course.updateOne({ $push: { likes: user._id } });
+    return res.status(200).json({ message: "liked", success: true });
+  }
+});
+
+// get all likes
+export const getAllLikes = TryCatch(async (req, res) => {
+  const { id } = req.params;
+  const course = await Course.findById(id);
+  if (!course) return res.status(404).json({ message: "Course not found" });
+  const user = await User.findById(req.user._id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+  return res
+    .status(200)
+    .json({ message: " likes", likes: course.likes.length, success: true });
+});

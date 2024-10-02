@@ -1,8 +1,9 @@
 import React from "react";
 import Slider from "react-slick";
-import CourseCard from "../Course/CourseCard";
+
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Courses from "../Course/Courses";
 
 const Home = () => {
   const user = useSelector((state) => state.user.user);
@@ -28,18 +29,35 @@ const Home = () => {
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
           Learn from the best courses anytime, anywhere.
         </p>
-
-        <Link
-          to={user ? "/dashboard" : "/login"}
-          className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
-        >
-          {user ? "Go to Dashboard" : "Get Started"}
-        </Link>
+        {user ? (
+          <Link
+            to="/study"
+            className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Study
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="mt-6 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Get Started
+          </Link>
+        )}
       </header>
 
       {/* Courses Section */}
-      <section className="py-20">
-        <CourseCard />
+      <section className="bg-gray-100 dark:bg-gray-900 py-20">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+            Our Popular Courses
+          </h2>
+          <p className="mt-4 text-gray-600 dark:text-gray-300">
+            Explore our diverse range of courses to enhance your learning
+            experience.
+          </p>
+          <Courses />
+        </div>
       </section>
 
       {/* Testimonials Section */}

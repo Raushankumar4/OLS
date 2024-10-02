@@ -4,7 +4,7 @@ const CourseSchema = new Schema(
   {
     courseName: { type: String, required: true },
     description: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String },
     topics: { type: Array },
     overview: { type: Array },
     price: { type: String, required: true },
@@ -13,6 +13,7 @@ const CourseSchema = new Schema(
     courseLevel: { type: String, required: true },
     courseTag: { type: String, required: true },
     createdBy: { type: String, required: true },
+    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
     questions: [
       {
         type: Schema.Types.ObjectId,
