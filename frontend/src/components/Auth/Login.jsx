@@ -56,7 +56,7 @@ const Login = () => {
                 error={error.email}
                 disabled={isLoading}
                 required
-                placeholder="Enter your email"
+                placeholder="Enter your Email"
               />
             </div>
             <div className="mb-4">
@@ -115,7 +115,7 @@ const Login = () => {
                 I already have an account.{" "}
                 <Link
                   to="/register"
-                  className="text-blue-600 hover:underline dark:text-blue-400"
+                  className="text-blue-600 hover:underline hover:to-blue-700 dark:text-blue-400 "
                 >
                   Sign in
                 </Link>
