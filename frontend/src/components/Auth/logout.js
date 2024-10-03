@@ -3,7 +3,7 @@ import { AUTH_URL } from "../../constant";
 import { logout } from "../../redux/store/slices/authSlice";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 import { setUser } from "../../redux/store/slices/userSlice";
-import { setCourse } from "../../redux/store/slices/courseSlice";
+import { setCourse, setMyCourse } from "../../redux/store/slices/courseSlice";
 
 export const logOutuser = async (dispatch) => {
   try {
@@ -11,6 +11,7 @@ export const logOutuser = async (dispatch) => {
     dispatch(logout());
     dispatch(setUser(null));
     dispatch(setCourse(null));
+    dispatch(setMyCourse(null));
     successToast(data.message);
     console.log(data.message);
   } catch (error) {

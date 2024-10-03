@@ -34,6 +34,10 @@ const CreateCourse = () => {
     handleRemoveOverview,
     handleRemoveImage,
     handleOnSubmit,
+    addCourseTag,
+    handleRemoveCourseTag,
+    addtag,
+    setAddTag,
   } = useCreateCourse();
 
   return (
@@ -59,6 +63,10 @@ const CreateCourse = () => {
             handleOnAddOverview={handleOnAddOverview}
             handleRemoveTopic={handleRemoveTopic}
             handleRemoveOverview={handleRemoveOverview}
+            addCourseTag={addCourseTag}
+            handleRemoveCourseTag={handleRemoveCourseTag}
+            addtag={addtag}
+            setAddTag={setAddTag}
             error={error}
             isLoading={isLoading}
           />

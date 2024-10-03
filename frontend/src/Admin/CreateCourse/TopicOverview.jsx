@@ -11,6 +11,10 @@ const TopicsOverview = ({
   handleOnAddOverview,
   handleRemoveTopic,
   handleRemoveOverview,
+  addCourseTag,
+  handleRemoveCourseTag,
+  addtag,
+  setAddTag,
   error,
   isLoading,
 }) => {
@@ -101,6 +105,40 @@ const TopicsOverview = ({
               &times;
             </button>
           </div>
+        ))}
+      </div>
+      <div>
+        <h3 className="text-xl font-semibold">Add Course Tags</h3>
+        <input
+          type="text"
+          value={addtag}
+          onChange={(e) => setAddTag(e.target.value)}
+          placeholder="Add a tag"
+          className="border rounded p-2 mb-2"
+          disabled={isLoading}
+        />
+        <button
+          type="button"
+          onClick={addCourseTag}
+          className="bg-blue-500 text-white rounded px-4 py-2"
+          disabled={isLoading}
+        >
+          Add Tag
+        </button>
+      </div>
+
+      <div>
+        {userInput.courseTag.map((tag) => (
+          <span key={tag} className="mr-2 inline-block">
+            {tag}
+            <button
+              type="button"
+              onClick={() => handleRemoveCourseTag(tag)}
+              className="ml-2 text-red-500"
+            >
+              Remove
+            </button>
+          </span>
         ))}
       </div>
     </div>

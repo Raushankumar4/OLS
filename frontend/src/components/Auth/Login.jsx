@@ -9,6 +9,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [isChecked, setIsChecked] = useState(false); 
   const { isLoading, error, loginUser } = useLogin();
   const navigate = useNavigate();
 
@@ -17,8 +18,16 @@ const Login = () => {
     setUserInput((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleCheckboxChange = () => {
+    setIsChecked((prev) => !prev);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!isChecked) {
+      alert("Please accept the privacy policy to continue.");
+      return;
+    }
     loginUser(userInput, navigate);
   };
 
@@ -62,6 +71,25 @@ const Login = () => {
                 required
                 placeholder="Enter your password"
               />
+            </div>
+            <div className="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="privacyPolicy"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+                disabled={isLoading}
+                required
+              />
+              <label htmlFor="privacyPolicy" className="ml-2">
+                I accept the{" "}
+                <Link
+                  to="/privacy-policy"
+                  className="text-blue-600 hover:underline dark:text-blue-400"
+                >
+                  Privacy Policy
+                </Link>
+              </label>
             </div>
             <button
               type="submit"

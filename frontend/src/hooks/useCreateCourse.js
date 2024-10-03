@@ -13,7 +13,7 @@ const useCreateCourse = () => {
     price: "",
     language: "",
     courseLevel: "",
-    courseTag: "",
+    courseTag: [],
     category: "",
     createdBy: "",
     overview: [],
@@ -22,6 +22,7 @@ const useCreateCourse = () => {
   });
 
   const [addTopic, setAddTopic] = useState("");
+  const [addtag, setAddTag] = useState("");
   const [addOverview, setAddOverview] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +38,7 @@ const useCreateCourse = () => {
     if (!userInput.description)
       newErrors.description = "Description is required";
     if (!userInput.price) newErrors.price = "Price is required";
+    else if (isNaN(userInput.price)) newErrors.price = "Price must be a number";
     if (!userInput.language) newErrors.language = "Language is required";
     if (!userInput.courseLevel)
       newErrors.courseLevel = "Course level is required";
@@ -45,7 +47,8 @@ const useCreateCourse = () => {
     if (!userInput.image) newErrors.image = "Image is required";
     if (userInput.topics.length === 0)
       newErrors.topics = "At least one topic is required";
-    if (!userInput.courseTag) newErrors.courseTag = "Course tag is required";
+    if (userInput.courseTag.length === 0)
+      newErrors.courseTag = "At least one course tag is required";
     if (userInput.overview.length === 0)
       newErrors.overview = "Overview is required";
 
@@ -75,23 +78,22 @@ const useCreateCourse = () => {
   };
 
   const handleAddTopic = () => {
-    if (addTopic.trim() && !userInput.topics.includes(addTopic.trim())) {
+    const trimmedTopic = addTopic.trim();
+    if (trimmedTopic && !userInput.topics.includes(trimmedTopic)) {
       setUserInput((prevInput) => ({
         ...prevInput,
-        topics: [...prevInput.topics, addTopic.trim()],
+        topics: [...prevInput.topics, trimmedTopic],
       }));
       setAddTopic("");
     }
   };
 
   const handleOnAddOverview = () => {
-    if (
-      addOverview.trim() &&
-      !userInput.overview.includes(addOverview.trim())
-    ) {
+    const trimmedOverview = addOverview.trim();
+    if (trimmedOverview && !userInput.overview.includes(trimmedOverview)) {
       setUserInput((prevInput) => ({
         ...prevInput,
-        overview: [...prevInput.overview, addOverview.trim()],
+        overview: [...prevInput.overview, trimmedOverview],
       }));
       setAddOverview("");
     }
@@ -118,6 +120,24 @@ const useCreateCourse = () => {
     setImagePreview(null);
   };
 
+  const addCourseTag = () => {
+    const trimmedTag = addtag.trim();
+    if (trimmedTag && !userInput.courseTag.includes(trimmedTag)) {
+      setUserInput((prevInput) => ({
+        ...prevInput,
+        courseTag: [...prevInput.courseTag, trimmedTag],
+      }));
+      setAddTag("");
+    }
+  };
+
+  const handleRemoveCourseTag = (tagToRemove) => {
+    setUserInput((prevInput) => ({
+      ...prevInput,
+      courseTag: prevInput.courseTag.filter((tag) => tag !== tagToRemove),
+    }));
+  };
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
@@ -134,11 +154,11 @@ const useCreateCourse = () => {
       formData.append("price", userInput.price);
       formData.append("language", userInput.language);
       formData.append("courseLevel", userInput.courseLevel);
-      formData.append("courseTag", userInput.courseTag);
+      formData.append("courseTag", JSON.stringify(userInput.courseTag));
       formData.append("category", userInput.category);
       formData.append("createdBy", userInput.createdBy);
-      formData.append("overview", userInput.overview);
-      formData.append("topics", userInput.topics);
+      formData.append("overview", JSON.stringify(userInput.overview));
+      formData.append("topics", JSON.stringify(userInput.topics));
 
       const { data } = await axios.post(`${ADMIN}/create-course`, formData, {
         headers: {
@@ -163,6 +183,7 @@ const useCreateCourse = () => {
     setAddTopic,
     addOverview,
     setAddOverview,
+    addCourseTag,
     imagePreview,
     isLoading,
     error,
@@ -173,6 +194,9 @@ const useCreateCourse = () => {
     handleRemoveOverview,
     handleRemoveImage,
     handleOnSubmit,
+    handleRemoveCourseTag,
+    addtag,
+    setAddTag,
   };
 };
 

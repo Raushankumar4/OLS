@@ -3,11 +3,35 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 const CourseDetails = () => {
-  const allcourses = useSelector((state) => state.course.courses);
-  console.log(allcourses);
+  const allCourses = useSelector((state) => state.course.courses);
   const { id } = useParams();
-  const findCourse = allcourses?.find((course) => course._id === id);
-  console.log(findCourse);
+  const findCourse = allCourses?.find((course) => course?._id === id);
+
+  const courseTags = (() => {
+    try {
+      return JSON.parse(findCourse?.courseTag) || [];
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  })();
+
+  const courseTopics = (() => {
+    try {
+      return JSON.parse(findCourse?.topics) || [];
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  })();
+  const courseOvers = (() => {
+    try {
+      return JSON.parse(findCourse?.overview) || [];
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  })();
 
   return (
     <div className="max-w-6xl mx-auto p-6 min-h-[110vh] dark:bg-gray-900 flex flex-col md:flex-row">
@@ -16,7 +40,7 @@ const CourseDetails = () => {
         <img
           className="w-full h-64 object-cover rounded-lg shadow-md mb-4"
           src={findCourse?.image}
-          alt="React for Beginners"
+          alt={findCourse?.courseName || "Course Image"}
         />
         <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mb-4">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
@@ -26,22 +50,23 @@ const CourseDetails = () => {
             Enroll Now
           </button>
         </div>
+
         <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
           Tags:
         </h4>
         <div className="flex flex-wrap mt-2">
-          <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-            React
-          </span>
-          <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-            JavaScript
-          </span>
-          <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-            Frontend
-          </span>
-          <span className="bg-blue-100 mt-2 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-            Web Development
-          </span>
+          {courseTags.length > 0 ? (
+            courseTags.map((tag) => (
+              <span
+                key={tag}
+                className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+              >
+                {tag}
+              </span>
+            ))
+          ) : (
+            <span>No tags available</span>
+          )}
         </div>
 
         {/* Student Reviews */}
@@ -72,38 +97,32 @@ const CourseDetails = () => {
         </p>
 
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
-          Instructor: Jane Doe
+          Instructor: {findCourse?.createdBy || "Unknown"}
         </h4>
 
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
           Course Language:
         </h4>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">English</p>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          {findCourse?.language || "N/A"}
+        </p>
 
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
           Course Content:
         </h4>
         <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 mt-2">
-          <li>Introduction to React</li>
-          <li>Components and Props</li>
-          <li>State and Lifecycle</li>
-          <li>Handling Events</li>
-          <li>Conditional Rendering</li>
-          <li>Lists and Keys</li>
-          <li>Forms in React</li>
-          <li>Routing with React Router</li>
+          {courseTopics.map((topic) => (
+            <li key={topic}>{topic}</li>
+          ))}
         </ul>
 
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
           What You'll Learn:
         </h4>
         <p className="text-gray-600 dark:text-gray-300 mt-2">
-          - Understand the basics of React and its ecosystem.
-          <br />
-          - Build single-page applications with React.
-          <br />
-          - Manage component state and lifecycle methods effectively.
-          <br />- Create dynamic and responsive web applications.
+          {courseOvers?.map((over) => (
+            <li key={over}>{over}</li>
+          ))}
         </p>
       </div>
     </div>

@@ -19,31 +19,14 @@ export const createCourse = TryCatch(async (req, res) => {
     courseLevel,
   } = req.body;
 
-  if (
-    !courseName ||
-    !description ||
-    !price ||
-    !topics ||
-    !category ||
-    !language ||
-    !courseTag ||
-    !overview ||
-    !createdBy ||
-    !courseLevel
-  ) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  const user = await User.findById(req.user._id);
-  if (user && user.role !== "admin")
-    return res.status(403).json({ message: "Only admin can create course" });
-
+  // Handle course image upload
   let courseImageUrl = null;
   if (req.file) {
-    const localFilePath = req.file.path;
     try {
+      const localFilePath = req.file.path;
       const uploadCourse = await uploadOnCloudnary(localFilePath);
-      if (uploadCourse && uploadCourse.url) {
+
+      if (uploadCourse?.url) {
         courseImageUrl = uploadCourse.url;
       } else {
         return res
@@ -58,6 +41,7 @@ export const createCourse = TryCatch(async (req, res) => {
     }
   }
 
+  // Create course
   const course = await Course.create({
     courseName,
     description,
@@ -71,6 +55,7 @@ export const createCourse = TryCatch(async (req, res) => {
     createdBy,
     courseLevel,
   });
+
   return res
     .status(200)
     .json({ message: "Course created successfully", course, success: true });

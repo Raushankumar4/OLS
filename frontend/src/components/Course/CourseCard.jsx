@@ -15,7 +15,7 @@ const CourseCard = ({ courses }) => {
             {courses?.courseName}
           </h2>
           <p className="text-gray-700 text-sm mb-4">
-            {courses?.description.length > 100
+            {courses?.description?.length > 100
               ? `${courses.description.slice(0, 40)}...`
               : courses.description}
           </p>

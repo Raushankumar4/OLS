@@ -52,15 +52,6 @@ const CourseDetails = ({ userInput, handleOnChange, error, isLoading }) => {
           placeholder="Enter course level"
           value={userInput.courseLevel}
         />
-        <InputField
-          onChange={handleOnChange}
-          name="courseTag"
-          label="Course Tag"
-          disabled={isLoading}
-          error={error.courseTag}
-          placeholder="Enter course tag"
-          value={userInput.courseTag}
-        />
       </div>
     </div>
   );

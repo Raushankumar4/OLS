@@ -9,7 +9,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const VerifyOtp = () => {
   const [otp, setOtp] = useState(Array(4).fill(""));
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(""); // For error messages
+  const [error, setError] = useState("");
   const activationToken = useSelector((state) => state.auth.activationToken);
   const navigate = useNavigate();
   console.log(activationToken);
