@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logOutuser } from "../Auth/logout";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -33,6 +33,10 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
       </button>
       <ul>
         <li className="mb-2">
+          <Link to="/">Home</Link>
+        </li>
+
+        <li className="mb-2">
           <button
             onClick={() => {
               const route =
@@ -41,7 +45,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
             }}
             className="hover:underline"
           >
-            Home
+            Dashboard
           </button>
         </li>
         <li className="mb-2">

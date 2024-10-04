@@ -47,18 +47,20 @@ const Home = () => {
       </header>
 
       {/* Courses Section */}
-      <section className="bg-gray-100 dark:bg-gray-900 py-20">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Our Popular Courses
-          </h2>
-          <p className="mt-4 text-gray-600 dark:text-gray-300">
-            Explore our diverse range of courses to enhance your learning
-            experience.
-          </p>
-          <Courses />
-        </div>
-      </section>
+      {user && (
+        <section className="bg-gray-100 dark:bg-gray-900 py-20">
+          <div className="container mx-auto text-center">
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">
+              Our Popular Courses
+            </h2>
+            <p className="mt-4 text-gray-600 dark:text-gray-300">
+              Explore our diverse range of courses to enhance your learning
+              experience.
+            </p>
+            <Courses />
+          </div>
+        </section>
+      )}
 
       {/* Testimonials Section */}
       <section className="bg-gray-100 dark:bg-gray-900 py-20">

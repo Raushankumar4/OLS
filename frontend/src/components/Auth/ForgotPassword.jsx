@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { InputField } from "../InputArea/InputField";
 import axios from "axios";
 import { USER_URL } from "../../constant";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { errorToast, successToast } from "../Toast/ToastNotify";
 import LoadingButton from "../LoadingSpinner/isLoading";
 
@@ -62,9 +62,9 @@ const ForgotPassword = () => {
           </LoadingButton>
         </form>
         <div className="mt-4 text-center">
-          <a href="/login" className="text-blue-500 hover:underline">
+          <Link to="/login" className="text-blue-500 hover:underline">
             Back to Login
-          </a>
+          </Link>
         </div>
       </div>
     </div>

@@ -75,12 +75,14 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <Link
-            to="/courses"
-            className="text-gray-800 dark:text-white hover:underline"
-          >
-            Courses
-          </Link>
+          {isAuthenticated && (
+            <Link
+              to="/courses"
+              className="text-gray-800 dark:text-white hover:underline"
+            >
+              Courses
+            </Link>
+          )}
           <Link
             to="/about"
             className="text-gray-800 dark:text-white hover:underline"
