@@ -21,6 +21,10 @@ import Dashboard from "./components/Student/Dashboard.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
 import ResetPassword from "./components/Auth/ResetPassword.jsx";
 import CoursesCards from "./components/Course/CoursesCards.jsx";
+import Profile from "./components/Student/Profile.jsx";
+import MyCourse from "./components/Student/MyCourse.jsx";
+import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
+import CourseProgress from "./components/Student/CourseProgres.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +41,17 @@ const router = createBrowserRouter([
       { path: "faq", element: <FAQ /> },
       { path: "coursedetails/:id", element: <CourseDetails /> },
       { path: "study", element: <StudyCourse /> },
-      { path: "dashboard", element: <Dashboard /> },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+          { index: true, element: <CourseProgress /> },
+          { path: "profile", element: <Profile /> },
+          { path: "mycourses", element: <MyCourse /> },
+          { path: "create-course", element: <CreateCourse /> },
+          { path: "courses", element: <Courses /> },
+        ],
+      },
       { path: "forgotPassword", element: <ForgotPassword /> },
       { path: "/reset-password/:token", element: <ResetPassword /> },
     ],

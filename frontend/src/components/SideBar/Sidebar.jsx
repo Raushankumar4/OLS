@@ -1,12 +1,17 @@
 import React from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { toogleModel } from "../../redux/store/slices/modalSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { logOutuser } from "../Auth/logout";
-import { useDispatch, useSelector } from "react-redux";
 
-const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
+const Sidebar = () => {
+  const { isOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
+  const toggleSidebar = () => {
+    dispatch(toogleModel());
+  };
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -15,128 +20,70 @@ const Sidebar = ({ isOpen, toggleSidebar, onLinkClick }) => {
   };
 
   return (
-    <aside
-      className={`bg-gray-800 text-white w-64 p-4 flex-shrink-0 transition-transform duration-300 ease-in-out transform ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } lg:translate-x-0 lg:block fixed lg:static h-full z-10`}
-      aria-hidden={!isOpen}
-      role="navigation"
-    >
-      <h2 className="text-xl font-bold mb-4">
-        {user?.role === "admin" ? "Admin Dashboard" : "Student Dashboard"}
-      </h2>
+    <div className="flex flex-col z-50">
       <button
-        className="lg:hidden mb-4 text-sm text-gray-400 hover:text-white"
         onClick={toggleSidebar}
+        className="p-4 text-gray-700 focus:outline-none lg:hidden"
       >
-        Close
+        {isOpen ? <FaTimes /> : <FaBars />}
       </button>
-      <ul>
-        <li className="mb-2">
-          <Link to="/">Home</Link>
-        </li>
 
-        <li className="mb-2">
-          <button
-            onClick={() => {
-              const route =
-                user?.role === "admin" ? "Adminhome" : "CourseProgress";
-              onLinkClick(route);
-            }}
-            className="hover:underline"
-          >
-            Dashboard
-          </button>
-        </li>
-        <li className="mb-2">
-          <button
-            onClick={() => {
-              const route =
-                user?.mainRole === "superAdmin" ? "Adminprofile" : "profile";
-              onLinkClick(route);
-            }}
-            className="hover:underline"
-          >
-            Profile
-          </button>
-        </li>
-        <li className="mb-2">
-          <button
-            onClick={() => {
-              const route =
-                user?.role === "admin" ? "Adminprofile" : "mycourses";
-              onLinkClick(route);
-            }}
-            className="hover:underline"
-          >
-            My Courses
-          </button>
-        </li>
+      <div
+        className={`fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity duration-300 ${
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={toggleSidebar}
+      ></div>
 
-        {user?.role === "admin" && (
-          <ul>
-            <li className="mb-2">
-              <button
+      <aside
+        className={`fixed lg:static lg:block lg:bg-transparent lg:shadow-none 
+          w-64 h-full bg-white shadow-lg transition-transform duration-300 transform ${
+            isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
+      >
+        <div className="p-4">
+          <h2 className="text-lg font-semibold">E Learning</h2>
+          <ul className="mt-4">
+            <li className="py-2">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="py-2">
+              <Link
                 onClick={() => {
-                  onLinkClick("CreateCourse");
+                  isOpen && toggleSidebar();
                 }}
-                className="hover:underline"
+                to="/dashboard/profile"
+              >
+                Profile
+              </Link>
+            </li>
+            <li className="py-2">
+              <Link
+                onClick={() => {
+                  isOpen && toggleSidebar();
+                }}
+                to="/dashboard/create-course"
               >
                 Create Course
-              </button>
+              </Link>
             </li>
-            <li className="mb-2">
-              <button
+            <li className="py-2">
+              <Link
                 onClick={() => {
-                  onLinkClick("CreateLecture");
+                  isOpen && toggleSidebar();
                 }}
-                className="hover:underline"
+                to="/dashboard/create-lecture"
               >
-                Create Lecture
-              </button>
+                Create Lectures
+              </Link>
             </li>
-            <li className="mb-2">
-              <button
-                onClick={() => {
-                  const route =
-                    user?.role === "admin" ? "AdminCourses" : "mycourses";
-                  onLinkClick(route);
-                }}
-                className="hover:underline"
-              >
-                {user?.role === "admin" ? "All Courses" : "My Courses"}
-              </button>
-            </li>
-            <li className="mb-2">
-              <button
-                onClick={() => {
-                  onLinkClick("CreateLecture");
-                }}
-                className="hover:underline"
-              >
-                All Lectures
-              </button>
-            </li>
-            <li className="mb-2">
-              <button
-                onClick={() => {
-                  onLinkClick("CreateLecture");
-                }}
-                className="hover:underline"
-              >
-                Update Role
-              </button>
+            <li className="py-2">
+              <button onClick={handleLogout}>Logout</button>
             </li>
           </ul>
-        )}
-
-        <li className="mb-2">
-          <button onClick={handleLogout} className="hover:underline">
-            Logout
-          </button>
-        </li>
-      </ul>
-    </aside>
+        </div>
+      </aside>
+    </div>
   );
 };
 

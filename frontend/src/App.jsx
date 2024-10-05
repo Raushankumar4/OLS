@@ -22,7 +22,7 @@ const App = () => {
   useGetAllCourse();
   useGetProfile(userId);
 
-  const showNavbar = location.pathname !== "/dashboard";
+  const showNavbar = !location.pathname.startsWith("/dashboard");
 
   return (
     <div className="dark:bg-gray-900">
