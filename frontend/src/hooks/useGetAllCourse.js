@@ -10,8 +10,8 @@ export const useGetAllCourse = () => {
   const reffresh = useSelector((state) => state.course.refresh);
 
   useEffect(() => {
+    if (!token) return;
     const getAllCourse = async () => {
-      if (!token) return;
       try {
         const { data } = await axios.get(`${ADMIN}/get-all-course`, {
           headers: {

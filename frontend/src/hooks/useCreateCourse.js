@@ -169,7 +169,7 @@ const useCreateCourse = () => {
       });
       dispatch(refreshCourse(!refresh));
       successToast(data.message);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       errorToast(error?.response?.data?.message || error.message);
     } finally {

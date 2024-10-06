@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import CourseDetails from "./CourseDetails";
 import TopicsOverview from "./TopicOverview";
 import CategorySelect from "./CategorySelect";
 import { InputField } from "../../components/InputArea/InputField";
@@ -8,6 +7,7 @@ import FormSubmit from "./FormSubmit";
 import useCreateCourse from "../../hooks/useCreateCourse";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import CreateCourseCard from "./CreateCourseCard";
 
 const CreateCourse = () => {
   const user = useSelector((state) => state.user.user);
@@ -41,13 +41,13 @@ const CreateCourse = () => {
   } = useCreateCourse();
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 p-6">
-      <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-4xl border border-gray-300">
+    <div className="flex items-center justify-center min-h-screen  p-6">
+      <div className=" p-8 w-full max-w-4xl ">
         <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">
           Create a New Course
         </h2>
         <form onSubmit={handleOnSubmit}>
-          <CourseDetails
+          <CreateCourseCard
             userInput={userInput}
             handleOnChange={handleOnChange}
             error={error}

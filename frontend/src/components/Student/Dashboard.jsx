@@ -12,7 +12,7 @@ const Dashboard = () => {
       <Sidebar />
       {/* Main Content Area */}
       <main className="flex-grow p-4 bg-gray-100 overflow-auto">
-        <h1 className="text-2xl font-bold mb-4">Welcome Back, {user?.name}!</h1>
+        <h1 className="text-2xl font-bold mb-4"> {user?.name}!</h1>
         <Outlet />
       </main>
     </div>

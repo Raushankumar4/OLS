@@ -10,7 +10,6 @@ const Home = () => {
   const user = useSelector((state) => state.user.user);
   const { courses } = useSelector((state) => state.course);
   const navigate = useNavigate();
-  console.log(courses);
 
   useEffect(() => {
     if (searchQuery) {

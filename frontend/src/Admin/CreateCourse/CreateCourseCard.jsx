@@ -2,7 +2,7 @@ import React from "react";
 import { InputField } from "../../components/InputArea/InputField";
 import Textarea from "../../components/InputArea/Textarea";
 
-const CourseDetails = ({ userInput, handleOnChange, error, isLoading }) => {
+const CreateCourseCard = ({ userInput, handleOnChange, error, isLoading }) => {
   return (
     <div>
       <InputField
@@ -57,4 +57,4 @@ const CourseDetails = ({ userInput, handleOnChange, error, isLoading }) => {
   );
 };
 
-export default CourseDetails;
+export default CreateCourseCard;

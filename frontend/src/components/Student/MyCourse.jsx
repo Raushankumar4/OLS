@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import CourseCard from "./CourseCard";
+import MyCourseCard from "./MyCourseCard";
 
 const MyCourse = () => {
   const myCourse = useSelector((state) => state.course.myCourse);
@@ -9,7 +9,7 @@ const MyCourse = () => {
 
   return (
     <div className="max-w-4xl mx-auto grid place-items-center min-h-[60vh]">
-      {myCourse && myCourse.length === 0 ? (
+      {myCourse && myCourse?.length === 0 ? (
         <div className="flex flex-col items-center space-y-6">
           <p>No course found</p>
           <Link
@@ -21,9 +21,10 @@ const MyCourse = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {myCourse?.map((course) => (
-            <CourseCard key={course._id} course={course} />
-          ))}
+          {myCourse &&
+            myCourse?.map((course) => (
+              <MyCourseCard key={course?._id} course={course} />
+            ))}
         </div>
       )}
     </div>

@@ -62,9 +62,9 @@ const Sidebar = () => {
                 onClick={() => {
                   isOpen && toggleSidebar();
                 }}
-                to="/dashboard/create-course"
+                to="/dashboard/course-controller"
               >
-                Create Course
+                Coureses
               </Link>
             </li>
             <li className="py-2">

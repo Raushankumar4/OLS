@@ -24,6 +24,8 @@ import Profile from "./components/Student/Profile.jsx";
 import MyCourse from "./components/Student/MyCourse.jsx";
 import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
 import CourseProgress from "./components/Student/CourseProgres.jsx";
+import CourseController from "./Admin/CoursesController/CourseController.jsx";
+import CourseView from "./Admin/CoursesController/CourseView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,8 +49,8 @@ const router = createBrowserRouter([
           { index: true, element: <CourseProgress /> },
           { path: "profile", element: <Profile /> },
           { path: "mycourses", element: <MyCourse /> },
-          { path: "create-course", element: <CreateCourse /> },
-          { path: "courses", element: <Courses /> },
+          { path: "course-controller", element: <CourseController /> },
+          { path: "create-new-course", element: <CourseView /> },
         ],
       },
       { path: "forgotPassword", element: <ForgotPassword /> },
