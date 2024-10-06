@@ -26,6 +26,7 @@ import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
 import CourseProgress from "./components/Student/CourseProgres.jsx";
 import CourseController from "./Admin/CoursesController/CourseController.jsx";
 import CourseView from "./Admin/CoursesController/CourseView.jsx";
+import UpdateCourse from "./Admin/CreateCourse/UpdateCourse.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
           { path: "mycourses", element: <MyCourse /> },
           { path: "course-controller", element: <CourseController /> },
           { path: "create-new-course", element: <CourseView /> },
+          { path: "upadate-course/:id", element: <UpdateCourse /> },
         ],
       },
       { path: "forgotPassword", element: <ForgotPassword /> },

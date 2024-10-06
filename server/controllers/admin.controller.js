@@ -19,7 +19,6 @@ export const createCourse = TryCatch(async (req, res) => {
     courseLevel,
   } = req.body;
 
-  // Handle course image upload
   let courseImageUrl = null;
   if (req.file) {
     try {
@@ -64,52 +63,66 @@ export const createCourse = TryCatch(async (req, res) => {
 // Update course
 export const updateCourse = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const {
-    courseName,
-    description,
-    price,
-    topics,
-    category,
-    language,
-    courseTag,
-    overview,
-    createdBy,
-    courseLevel,
-  } = req.body;
-
-  const courseImageLocalPath = req.file
-    ? await uploadOnCloudnary(req.file.path)
-    : null;
 
   const course = await Course.findById(id);
   if (!course) {
     return res.status(404).json({ message: "Course not found" });
   }
-  const update = {};
 
-  if (courseName) update.courseName = courseName;
-  if (description) update.description = description;
-  if (price) update.price = price;
-  if (topics) update.topics = topics;
-  if (category) update.category = category;
-  if (language) update.language = language;
-  if (courseLevel) update.courseLevel = courseLevel;
-  if (courseTag) update.courseTag = courseTag;
-  if (overview) update.overview = overview;
-  if (createdBy) update.createdBy = createdBy;
-  if (courseImageLocalPath) {
-    const image = await uploadOnCloudnary(courseImageLocalPath);
-    update.image = image.url;
+  let courseImageLocalPath;
+  if (req.file) {
+    try {
+      courseImageLocalPath = await uploadOnCloudnary(req.file.path);
+    } catch (error) {
+      return res.status(500).json({ message: "Error uploading image", error });
+    }
   }
 
-  const updateCourse = await Course.findByIdAndUpdate(id, update, {
+  const update = {};
+  const fieldsToUpdate = [
+    "courseName",
+    "description",
+    "price",
+    "topics",
+    "category",
+    "language",
+    "courseLevel",
+    "courseTag",
+    "overview",
+    "createdBy",
+  ];
+
+  fieldsToUpdate.forEach((field) => {
+    if (req.body[field]) {
+      update[field] = req.body[field];
+    }
+  });
+
+  if (courseImageLocalPath) {
+    if (course.image && course.image.public_id) {
+      const deleteImageResult = await deleteFromCloudinary(
+        course.image.public_id
+      );
+      if (!deleteImageResult.success) {
+        return res.status(500).json({
+          message: "Error deleting old image from Cloudinary",
+          error: deleteImageResult.error,
+        });
+      }
+    }
+    update.image = courseImageLocalPath.url;
+  }
+
+  const updatedCourse = await Course.findByIdAndUpdate(id, update, {
     new: true,
   });
-  if (!updateCourse)
-    return res.status(404).json({ message: "Course not found" });
+  if (!updatedCourse) {
+    return res.status(404).json({ message: "Course not found after update" });
+  }
+
   return res.status(200).json({
     message: "Course updated successfully",
-    updateCourse,
+    updatedCourse,
     success: true,
   });
 });

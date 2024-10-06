@@ -41,11 +41,12 @@ const CourseDetails = () => {
   })();
 
   const handleDelete = () => {
-    deleteSingleCourse(findCourse?._id, token, navigate, dispatch);
+    window.confirm("Are you sure you want to delete this course?") &&
+      deleteSingleCourse(findCourse?._id, token, navigate, dispatch);
   };
 
   const handleUpdate = () => {
-    navigate(`/updatecourse/${findCourse?._id}`);
+    navigate(`/dashboard/upadate-course/${findCourse?._id}`);
   };
 
   return (
