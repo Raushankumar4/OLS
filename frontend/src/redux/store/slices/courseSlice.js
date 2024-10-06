@@ -19,8 +19,14 @@ const courseSlice = createSlice({
     refreshCourse: (state) => {
       state.refresh = !state.refresh;
     },
+    deleteCourse: (state, action) => {
+      state.courses = state.courses?.filter(
+        (course) => course?._id !== action.payload
+      );
+    },
   },
 });
 
-export const { setCourse, setMyCourse, refreshCourse } = courseSlice.actions;
+export const { setCourse, setMyCourse, refreshCourse, deleteCourse } =
+  courseSlice.actions;
 export default courseSlice.reducer;

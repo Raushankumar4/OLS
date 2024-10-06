@@ -47,15 +47,20 @@ const Courses = () => {
   };
 
   return (
-    <div className="md:p-6 p-1 mx-8 h-auto dark:bg-gray-900">
-      <Slider {...settings}>
-        {allcourses &&
-          allcourses.map((course) => (
+    <div className="md:p-6 p-1 mx-8 h-auto dark:bg-gray-900 flex items-center justify-center min-h-[300px]">
+      {allcourses && allcourses.length > 0 ? (
+        <Slider {...settings}>
+          {allcourses.map((course) => (
             <div key={course?._id} className="p-6 md:p-2 lg:p-4">
               <CourseCard courses={course} />
             </div>
           ))}
-      </Slider>
+        </Slider>
+      ) : (
+        <div className="text-center text-gray-500 text-2xl">
+          Course not found
+        </div>
+      )}
     </div>
   );
 };

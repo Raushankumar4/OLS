@@ -20,7 +20,6 @@ import StudyCourse from "./components/Course/StudyCourse.jsx";
 import Dashboard from "./components/Student/Dashboard.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
 import ResetPassword from "./components/Auth/ResetPassword.jsx";
-import CoursesCards from "./components/Course/CoursesCards.jsx";
 import Profile from "./components/Student/Profile.jsx";
 import MyCourse from "./components/Student/MyCourse.jsx";
 import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
@@ -35,7 +34,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "verifyOtp", element: <VerifyOtp /> },
       { path: "login", element: <Login /> },
-      { path: "courses", element: <CoursesCards /> },
+      { path: "courses", element: <Courses /> },
       { path: "about", element: <About /> },
       { path: "policy", element: <Policy /> },
       { path: "faq", element: <FAQ /> },

@@ -1,11 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { deleteSingleCourse } from "../../Admin/CreateCourse/deleteCourse";
 
 const CourseDetails = () => {
   const allCourses = useSelector((state) => state.course.courses);
   const { id } = useParams();
   const findCourse = allCourses?.find((course) => course?._id === id);
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+  const { user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const courseTags = (() => {
     try {
@@ -24,6 +30,7 @@ const CourseDetails = () => {
       return [];
     }
   })();
+
   const courseOvers = (() => {
     try {
       return JSON.parse(findCourse?.overview) || [];
@@ -32,6 +39,14 @@ const CourseDetails = () => {
       return [];
     }
   })();
+
+  const handleDelete = () => {
+    deleteSingleCourse(findCourse?._id, token, navigate, dispatch);
+  };
+
+  const handleUpdate = () => {
+    navigate(`/updatecourse/${findCourse?._id}`);
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6 min-h-[110vh] dark:bg-gray-900 flex flex-col md:flex-row">
@@ -55,8 +70,8 @@ const CourseDetails = () => {
           Tags:
         </h4>
         <div className="flex flex-wrap mt-2">
-          {courseTags.length > 0 ? (
-            courseTags.map((tag) => (
+          {courseTags?.length > 0 ? (
+            courseTags?.map((tag) => (
               <span
                 key={tag}
                 className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
@@ -88,7 +103,25 @@ const CourseDetails = () => {
       </div>
 
       {/* Right Side: Course Details */}
-      <div className="flex-grow p-4">
+      <div className="flex-grow p-4 relative">
+        {/* Icons in the top right corner */}
+        {user?.role === "admin" && (
+          <div className="absolute top-4 right-4">
+            <button
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+              onClick={handleUpdate}
+            >
+              <FaEdit />
+            </button>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition ml-2"
+              onClick={handleDelete}
+            >
+              <FaTrash />
+            </button>
+          </div>
+        )}
+
         <h2 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
           {findCourse?.courseName}
         </h2>
@@ -111,7 +144,7 @@ const CourseDetails = () => {
           Course Content:
         </h4>
         <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 mt-2">
-          {courseTopics.map((topic) => (
+          {courseTopics?.map((topic) => (
             <li key={topic}>{topic}</li>
           ))}
         </ul>
@@ -119,11 +152,11 @@ const CourseDetails = () => {
         <h4 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mt-4">
           What You'll Learn:
         </h4>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">
+        <ul className="list-disc list-inside text-gray-600 dark:text-gray-300 mt-2">
           {courseOvers?.map((over) => (
             <li key={over}>{over}</li>
           ))}
-        </p>
+        </ul>
       </div>
     </div>
   );
