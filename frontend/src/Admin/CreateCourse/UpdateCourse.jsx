@@ -40,14 +40,7 @@ const UpdateCourse = () => {
     handleRemoveCourseTag,
     addtag,
     setAddTag,
-  } = useUpdateCourse();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!isLoading) {
-      handleOnSubmit(id);
-    }
-  };
+  } = useUpdateCourse(id);
 
   return (
     <div className="flex items-center justify-center min-h-screen p-6">
@@ -56,7 +49,7 @@ const UpdateCourse = () => {
           Update Course
         </h2>
         {error && <div className="text-red-600">{error.message}</div>}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleOnSubmit}>
           <CreateCourseCard
             userInput={userInput}
             handleOnChange={handleOnChange}

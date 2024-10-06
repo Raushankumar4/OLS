@@ -1,7 +1,10 @@
 import React from "react";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { useLocation } from "react-router-dom";
 
 const FormSubmit = ({ isLoading }) => {
+  const location = useLocation();
+  const show = location.pathname === "/dashboard/create-new-course";
   return (
     <button
       disabled={isLoading}
@@ -11,7 +14,7 @@ const FormSubmit = ({ isLoading }) => {
       {isLoading ? (
         <LoadingSpinner className="inline-block" />
       ) : (
-        "Create Course"
+        <span>{show ? "Create Course" : "Update Course"}</span>
       )}
     </button>
   );

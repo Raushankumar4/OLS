@@ -2,29 +2,32 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { ADMIN } from "../constant";
 import { errorToast, successToast } from "../components/Toast/ToastNotify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { refreshCourse } from "../redux/store/slices/courseSlice";
 
-const useUpdateCourse = () => {
+const useUpdateCourse = (id) => {
+  const course = useSelector((state) => state.course.courses);
+  const findcourse = course?.find((course) => course?._id === id);
+
   const [userInput, setUserInput] = useState({
-    courseName: "",
-    description: "",
-    price: "",
-    language: "",
-    courseLevel: "",
-    courseTag: [],
-    category: "",
-    createdBy: "",
-    overview: [],
+    courseName: findcourse?.courseName || "",
+    description: findcourse?.description || "",
+    price: findcourse?.price || "",
+    language: findcourse?.language || "",
+    courseLevel: findcourse?.courseLevel || "",
+    courseTag: JSON.parse(findcourse?.courseTag) || [],
+    category: findcourse?.category || "",
+    createdBy: findcourse?.createdBy || "",
+    overview: JSON.parse(findcourse?.overview) || [],
     image: null,
-    topics: [],
+    topics: JSON.parse(findcourse?.topics) || [],
   });
 
   const [addTopic, setAddTopic] = useState("");
   const [addtag, setAddTag] = useState("");
   const [addOverview, setAddOverview] = useState("");
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(findcourse?.image || null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({});
   const navigate = useNavigate();
@@ -138,7 +141,8 @@ const useUpdateCourse = () => {
     }));
   };
 
-  const handleOnSubmit = async (courseId) => {
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
     const validationErrors = validateForm();
     if (validationErrors) return;
     setIsLoading(true);
@@ -160,7 +164,7 @@ const useUpdateCourse = () => {
       formData.append("topics", JSON.stringify(userInput.topics));
 
       const { data } = await axios.put(
-        `${ADMIN}/update-course/${courseId}`,
+        `${ADMIN}/update-course/${id}`,
         formData,
         {
           headers: {
