@@ -42,12 +42,28 @@ const UpdateCourse = () => {
     setAddTag,
   } = useUpdateCourse(id);
 
+  const handleAddLecture = () => {
+    navigate(`/dashboard/add-lecture/${id}`);
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen p-6">
-      <div className="p-8 w-full max-w-4xl">
+      <div className="p-8 w-full max-w-4xl relative">
         <h2 className="text-3xl font-semibold text-center text-blue-600 mb-6">
           Update Course
         </h2>
+
+        {/* Add Lecture Button positioned at the top right */}
+        <div className="absolute top-6 right-6">
+          <button
+            type="button"
+            onClick={handleAddLecture}
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+          >
+            Add Lecture
+          </button>
+        </div>
+
         {error && <div className="text-red-600">{error.message}</div>}
         <form onSubmit={handleOnSubmit}>
           <CreateCourseCard
@@ -56,6 +72,7 @@ const UpdateCourse = () => {
             error={error}
             isLoading={isLoading}
           />
+
           <TopicsOverview
             userInput={userInput}
             addTopic={addTopic}

@@ -4,19 +4,14 @@ import { Lecture } from "../models/lecture.model.js";
 import { User } from "../models/user.model.js";
 import { uploadOnCloudnary } from "../utils/cloudinary.js";
 
-export const addLecture = TryCatch(async (req, res) => {
+export const addLectures = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const { title, description, duration } = req.body;
+  const lectures = req.body.lectures;
+  console.log(lectures);
 
-  let videolocalPath = req.file ? req.file.path : null;
-
-  let uploadVideo;
-  try {
-    uploadVideo = await uploadOnCloudnary(videolocalPath);
-  } catch (error) {
-    return res.status(500).json({
-      message: "Video upload failed",
-      error: error.message,
+  if (!Array.isArray(lectures) || lectures.length === 0) {
+    return res.status(400).json({
+      message: "Invalid input: lectures should be a non-empty array",
       success: false,
     });
   }
@@ -28,17 +23,49 @@ export const addLecture = TryCatch(async (req, res) => {
       .json({ message: "Course not found", success: false });
   }
 
-  const lecture = await Lecture.create({
-    title,
-    description,
-    duration,
-    video: uploadVideo.url,
-    course: course._id,
-  });
+  const addedLectures = [];
 
-  return res
-    .status(200)
-    .json({ message: "Lecture added successfully", lecture, success: true });
+  for (let i = 0; i < lectures.length; i++) {
+    const { title, description, duration } = JSON.parse(lectures[i]); // Parse JSON
+
+    if (!title || !description || !duration) {
+      return res.status(400).json({
+        message: "Title, description, and duration are required.",
+        success: false,
+      });
+    }
+
+    const videolocalPath = req.files[i] ? req.files[i].path : null;
+    let uploadVideo;
+
+    try {
+      if (videolocalPath) {
+        uploadVideo = await uploadOnCloudnary(videolocalPath);
+      }
+
+      const lecture = await Lecture.create({
+        title,
+        description,
+        duration,
+        video: uploadVideo ? uploadVideo.url : null,
+        course: course._id,
+      });
+
+      addedLectures.push(lecture);
+    } catch (error) {
+      return res.status(500).json({
+        message: "Failed to add one or more lectures",
+        error: error.message,
+        success: false,
+      });
+    }
+  }
+
+  return res.status(200).json({
+    message: "Lectures added successfully",
+    lectures: addedLectures,
+    success: true,
+  });
 });
 
 // delete lecture

@@ -27,7 +27,7 @@ const useUpdateCourse = (id) => {
   const [addTopic, setAddTopic] = useState("");
   const [addtag, setAddTag] = useState("");
   const [addOverview, setAddOverview] = useState("");
-  const [imagePreview, setImagePreview] = useState(findcourse?.image || null);
+  const [imagePreview, setImagePreview] = useState(findcourse?.image);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState({});
   const navigate = useNavigate();

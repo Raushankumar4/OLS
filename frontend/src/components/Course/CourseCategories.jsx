@@ -18,7 +18,10 @@ const CourseCategories = () => {
   useEffect(() => {
     if (selectedCategory) {
       setFilteredCourses(
-        courses?.filter((course) => course?.category === selectedCategory)
+        courses?.filter(
+          (course) =>
+            course?.category.toLowerCase() === selectedCategory.toLowerCase()
+        )
       );
     } else {
       setFilteredCourses(courses);

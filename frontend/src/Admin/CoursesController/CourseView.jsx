@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import CreateCourse from "../CreateCourse/CreateCourse";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CourseView = () => {
   const [currentView, setCurrentView] = useState("create-course");
+  const courses = useSelector((state) => state.course.courses);
 
   const handleViewChange = (view) => {
     setCurrentView(view);
@@ -54,9 +57,30 @@ const CourseView = () => {
       )}
 
       {currentView === "landing-page" && (
-        <div>
-          <CreateCourse />
-        </div>
+        <ul className="space-y-4">
+          {courses?.map((course) => (
+            <li
+              key={course?._id}
+              className="flex items-start p-4 bg-gray-100 rounded-md shadow-md"
+            >
+              <img
+                src={course?.image}
+                alt={course?.courseName}
+                className="w-16 h-16 mr-4 rounded-md"
+              />
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold">{course?.courseName}</h3>
+                <p className="text-gray-700">{course?.description}</p>{" "}
+              </div>
+              <Link
+                to={`/dashboard/add-lecture/${course?._id}`}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                Add Lecture
+              </Link>
+            </li>
+          ))}
+        </ul>
       )}
 
       {currentView === "setting" && (

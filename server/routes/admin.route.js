@@ -10,7 +10,7 @@ import {
 import { upload } from "../middleware/multer.js";
 import { isAdmin, isAuthenticated } from "../middleware/isAuthenticated.js";
 import {
-  addLecture,
+  addLectures,
   deleteAllLecture,
   deleteLecture,
   getAllLecture,
@@ -35,7 +35,7 @@ router
   .get(isAuthenticated, isAdmin, getSingleCourse);
 router
   .route("/add-lecture/:id")
-  .post(isAuthenticated, isAdmin, upload.single("video"), addLecture);
+  .post(isAuthenticated, isAdmin, upload.array("files"), addLectures);
 router
   .route("/update-lecture/:id")
   .put(isAuthenticated, isAdmin, upload.single("video"), updateLecture);
