@@ -10,7 +10,7 @@ const CourseCategories = () => {
     "Data Science",
     "Graphic Design",
     "Marketing",
-    "Business",
+    "Design",
   ];
 
   const courses = useSelector((state) => state.course.courses);
