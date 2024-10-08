@@ -23,9 +23,9 @@ const LectureView = () => {
   }
 
   const handleDeleteLecture = (id) => {
-    window.confirm("Are you sure you want to delete this lecture?") &&
-      deleteLecture(id, token, dispatch);
-    navigate(-1);
+    if (window.confirm("Are you sure you want to delete this lecture?")) {
+      deleteLecture(id, token, dispatch).then(() => navigate(-1));
+    }
   };
 
   return (

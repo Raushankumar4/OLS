@@ -30,6 +30,7 @@ import AddLectures from "./Admin/Lectures/AddLectures.jsx";
 import PaymentSuccess from "./components/Payment/PaymentSuccess.jsx";
 import SingleCourseView from "./Admin/CoursesController/SingleCourseView.jsx";
 import LectureView from "./Admin/Lectures/LectureView.jsx";
+import UpadateLecture from "./Admin/Lectures/UpadateLecture.jsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
           { path: "add-lecture/:id", element: <AddLectures /> },
           { path: "view-course/:id", element: <SingleCourseView /> },
           { path: "view-lecture/:id", element: <LectureView /> },
+          { path: "edit-lecture/:id", element: <UpadateLecture /> },
         ],
       },
       { path: "forgotPassword", element: <ForgotPassword /> },

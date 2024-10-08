@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEdit, FaTrash, FaEye } from "react-icons/fa"; // Import the eye icon for viewing
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteSingleCourse } from "../CreateCourse/deleteCourse";
@@ -12,8 +12,10 @@ const CourseController = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    window.confirm("Are you sure you want to delete this course?") &&
+    if (user?.role !== "admin") return;
+    if (window.confirm("Are you sure you want to delete this course?")) {
       deleteSingleCourse(id, token, navigate, dispatch);
+    }
   };
 
   return (
@@ -52,7 +54,7 @@ const CourseController = () => {
             </div>
             <div className="flex justify-center md:justify-end space-x-2">
               <Link
-                to={`/dashboard/update-course/${course?._id}`}
+                to={`/dashboard/upadate-course/${course?._id}`}
                 className="text-blue-600 hover:text-blue-800 transition p-2 rounded-full bg-blue-100 hover:bg-blue-200"
                 aria-label={`Edit ${course.title}`}
               >

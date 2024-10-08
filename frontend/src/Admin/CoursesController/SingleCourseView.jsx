@@ -15,16 +15,10 @@ const SingleCourseView = () => {
   const dispatch = useDispatch();
   useGetCourseLectures(id);
 
-  const handleAddLecture = () => {
-    if (newLecture) {
-      // Logic to add a new lecture
-      setNewLecture("");
-    }
-  };
-
   const handleDeleteLecture = (id) => {
-    console.log(deleteLecture(id, token, dispatch));
-    console.log(id);
+    if (window.confirm("Are you sure you want to delete this lecture?")) {
+      deleteLecture(id, token, dispatch);
+    }
   };
 
   return (
@@ -60,7 +54,12 @@ const SingleCourseView = () => {
                   >
                     <FaEye />
                   </Link>
-                  <button className="text-blue-600 hover:text-blue-800">
+                  <button
+                    onClick={() =>
+                      navigate(`/dashboard/edit-lecture/${lecture?._id}`)
+                    }
+                    className="text-blue-600 hover:text-blue-800"
+                  >
                     <FaEdit />
                   </button>
                   <button
