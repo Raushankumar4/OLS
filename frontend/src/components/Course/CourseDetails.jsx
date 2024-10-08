@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { deleteSingleCourse } from "../../Admin/CreateCourse/deleteCourse";
-import { useGetCourseLectures } from "../../hooks/useGetCourseLectures";
-import { COURSE, server } from "../../constant";
+import { COURSE } from "../../constant";
 import axios from "axios";
 import { successToast } from "../Toast/ToastNotify";
 import Loading from "../Pages/Loading";
 
 const CourseDetails = () => {
-  const { courses, courseLectures } = useSelector((state) => state.course);
+  const { courses } = useSelector((state) => state.course);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const findCourse = courses?.find((course) => course?._id === id);
@@ -18,7 +17,6 @@ const CourseDetails = () => {
   const token = useSelector((state) => state.auth.token);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  useGetCourseLectures(id);
 
   const courseTags = (() => {
     try {
@@ -134,12 +132,21 @@ const CourseDetails = () => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                 Price: ${findCourse?.price}
               </h3>
-              <button
-                onClick={handlePayment}
-                className="mt-4 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition w-full"
-              >
-                Enroll Now
-              </button>
+              {user && user?.subscription?.includes(findCourse?._id) ? (
+                <Link
+                  to={`/study/${id}`}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4"
+                >
+                  Study
+                </Link>
+              ) : (
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4"
+                  onClick={handlePayment}
+                >
+                  Buy Now
+                </button>
+              )}
             </div>
 
             <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
@@ -176,32 +183,6 @@ const CourseDetails = () => {
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="flex-none w-full md:w-2/3 p-4">
-            {courseLectures?.length > 0 ? (
-              courseLectures.map((lecture) => (
-                <div key={lecture?._id} className="mb-4">
-                  <h2 className="text-lg font-semibold">{lecture?.title}</h2>
-                  <video controls width="600">
-                    <source
-                      src={`${server}/${lecture?.video}`}
-                      type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                  </video>
-                  <p
-                    className="text-red-500"
-                    style={{ display: "none" }}
-                    id={`error-${lecture?._id}`}
-                  >
-                    Error loading video.
-                  </p>
-                </div>
-              ))
-            ) : (
-              <p>No lectures available for this course.</p>
-            )}
           </div>
 
           {/* Right Side: Course Details */}

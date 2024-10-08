@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa"; // Import the eye icon for viewing
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteSingleCourse } from "../CreateCourse/deleteCourse";
@@ -7,7 +7,6 @@ import { deleteSingleCourse } from "../CreateCourse/deleteCourse";
 const CourseController = () => {
   const courses = useSelector((state) => state.course.courses);
   const user = useSelector((state) => state.user.user);
-  console.log(user);
   const token = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,26 +42,33 @@ const CourseController = () => {
               <p className="text-gray-600">
                 Students:{" "}
                 <span className="font-semibold">
-                  {user?.subscription.length}
+                  {user?.subscription?.length}
                 </span>
               </p>
               <p className="text-gray-600">
                 Revenue:
-                <span className="font-semibold">{course.revenue}0</span>
+                <span className="font-semibold">{course?.revenue}0</span>
               </p>
             </div>
             <div className="flex justify-center md:justify-end space-x-2">
               <Link
-                to={`/dashboard/upadate-course/${course?._id}`}
+                to={`/dashboard/update-course/${course?._id}`}
                 className="text-blue-600 hover:text-blue-800 transition p-2 rounded-full bg-blue-100 hover:bg-blue-200"
                 aria-label={`Edit ${course.title}`}
               >
                 <FaEdit />
               </Link>
+              <Link
+                to={`/dashboard/view-course/${course?._id}`}
+                className="text-green-600 hover:text-green-800 transition p-2 rounded-full bg-green-100 hover:bg-green-200"
+                aria-label={`View ${course.title}`}
+              >
+                <FaEye />
+              </Link>
               <button
                 onClick={() => handleDelete(course?._id)}
                 className="text-red-600 hover:text-red-800 transition p-2 rounded-full bg-red-100 hover:bg-red-200"
-                aria-label={`Delete ${course.title}`}
+                aria-label={`Delete ${course?.courseName}`}
               >
                 <FaTrash />
               </button>

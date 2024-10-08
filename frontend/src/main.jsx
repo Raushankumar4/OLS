@@ -22,13 +22,14 @@ import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
 import ResetPassword from "./components/Auth/ResetPassword.jsx";
 import Profile from "./components/Student/Profile.jsx";
 import MyCourse from "./components/Student/MyCourse.jsx";
-import CreateCourse from "./Admin/CreateCourse/CreateCourse.jsx";
 import CourseProgress from "./components/Student/CourseProgres.jsx";
 import CourseController from "./Admin/CoursesController/CourseController.jsx";
 import CourseView from "./Admin/CoursesController/CourseView.jsx";
 import UpdateCourse from "./Admin/CreateCourse/UpdateCourse.jsx";
 import AddLectures from "./Admin/Lectures/AddLectures.jsx";
 import PaymentSuccess from "./components/Payment/PaymentSuccess.jsx";
+import SingleCourseView from "./Admin/CoursesController/SingleCourseView.jsx";
+import LectureView from "./Admin/Lectures/LectureView.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       { path: "policy", element: <Policy /> },
       { path: "faq", element: <FAQ /> },
       { path: "coursedetails/:id", element: <CourseDetails /> },
-      { path: "study", element: <StudyCourse /> },
+      { path: "study/:id", element: <StudyCourse /> },
       {
         path: "dashboard",
         element: <Dashboard />,
@@ -56,6 +57,8 @@ const router = createBrowserRouter([
           { path: "create-new-course", element: <CourseView /> },
           { path: "upadate-course/:id", element: <UpdateCourse /> },
           { path: "add-lecture/:id", element: <AddLectures /> },
+          { path: "view-course/:id", element: <SingleCourseView /> },
+          { path: "view-lecture/:id", element: <LectureView /> },
         ],
       },
       { path: "forgotPassword", element: <ForgotPassword /> },
