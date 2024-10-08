@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ADMIN } from "../constant";
 import { setCourseLectures } from "../redux/store/slices/courseSlice";
-import { errorToast } from "../components/Toast/ToastNotify";
 
 export const useGetCourseLectures = (courseId) => {
   const token = useSelector((state) => state.auth.token);
@@ -27,7 +26,7 @@ export const useGetCourseLectures = (courseId) => {
         );
         dispatch(setCourseLectures(data?.lectures));
       } catch (error) {
-        errorToast(error.response?.data?.message || error.message);
+        console.log(error.response?.data?.message || error.message);
       }
     };
     getCourseAllLectures();

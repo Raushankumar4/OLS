@@ -1,13 +1,16 @@
 import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { server } from "../../constant";
+import { deleteLecture } from "./deleteLecture";
 
 const LectureView = () => {
   const { id } = useParams();
   const { courseLectures } = useSelector((state) => state.course);
   const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
 
   const handleNavigate = () => {
     navigate(-1);
@@ -18,6 +21,12 @@ const LectureView = () => {
   if (!lecture) {
     return <div className="text-center text-gray-600">Lecture not found.</div>;
   }
+
+  const handleDeleteLecture = (id) => {
+    window.confirm("Are you sure you want to delete this lecture?") &&
+      deleteLecture(id, token, dispatch);
+    navigate(-1);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-10">
@@ -34,6 +43,7 @@ const LectureView = () => {
             <FaEdit className="mr-1" /> Edit
           </Link>
           <button
+            onClick={() => handleDeleteLecture(id)}
             className="text-red-600 hover:text-red-800 flex items-center"
             aria-label={`Delete ${lecture?.title}`}
           >

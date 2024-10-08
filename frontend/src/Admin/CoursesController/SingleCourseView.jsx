@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { FaEdit, FaTrash, FaPlus, FaEye } from "react-icons/fa";
-import { useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useGetCourseLectures } from "../../hooks/useGetCourseLectures";
+import { deleteLecture } from "../Lectures/deleteLecture";
 
 const SingleCourseView = () => {
   const [newLecture, setNewLecture] = useState("");
   const { id } = useParams();
   const { courses, courseLectures } = useSelector((state) => state.course);
   const course = courses?.find((course) => course?._id === id);
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
   useGetCourseLectures(id);
 
   const handleAddLecture = () => {
@@ -18,8 +22,9 @@ const SingleCourseView = () => {
     }
   };
 
-  const handleDeleteLecture = (lectureId) => {
-    // Logic to delete the lecture
+  const handleDeleteLecture = (id) => {
+    console.log(deleteLecture(id, token, dispatch));
+    console.log(id);
   };
 
   return (
@@ -59,7 +64,7 @@ const SingleCourseView = () => {
                     <FaEdit />
                   </button>
                   <button
-                    onClick={() => handleDeleteLecture(lecture._id)}
+                    onClick={() => handleDeleteLecture(lecture?._id)}
                     className="text-red-600 hover:text-red-800"
                   >
                     <FaTrash />
