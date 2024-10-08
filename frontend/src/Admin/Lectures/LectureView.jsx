@@ -32,7 +32,7 @@ const LectureView = () => {
     <div className="min-h-screen bg-gray-50 p-4 md:p-10">
       <header className="mb-8 text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-          {lecture?.title}
+          {lecture?.title} 
         </h1>
         <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-4 mt-4">
           <Link

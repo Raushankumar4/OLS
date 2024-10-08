@@ -5,59 +5,48 @@ import { ADMIN } from "../constant";
 import { successToast } from "../components/Toast/ToastNotify";
 import { useNavigate } from "react-router-dom";
 
-export const useAddLectures = (id) => {
-  const [lecture, setLecture] = useState({
-    title: "",
-    description: "",
-    duration: "",
-    video: null,
-  });
+export const useUpdateLecture = (id) => {
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [error, setError] = useState({});
   const token = useSelector((state) => state.auth.token);
   const navigate = useNavigate();
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!lecture.title) newErrors.title = "Title is required";
-
-    if (!lecture.description) newErrors.description = "Description is required";
-
-    if (!lecture.duration) newErrors.duration = "Duration is required";
-
-    if (!lecture.video) newErrors.video = "Video is required";
-
-    setError(newErrors);
-    return Object.keys(newErrors).length === 0 ? null : newErrors;
-  };
+  const singleLecture = useSelector(
+    (state) => state.course.courseLectures
+  ).find((lecture) => lecture?._id === id);
+  console.log(singleLecture);
+  const [lecture, setLecture] = useState({
+    title: singleLecture?.title || "",
+    description: singleLecture?.description || "",
+    duration: singleLecture?.duration || "",
+    video: null,
+  });
+  const [videoPreview, setVideoPreview] = useState(
+    singleLecture?.video || null
+  );
 
   const handleLectureChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "video") {
       const file = files[0];
       setLecture((prevInput) => ({ ...prevInput, [name]: file }));
-      const newImagePreview = URL.createObjectURL(file);
-      setImagePreview(newImagePreview);
+      const newVideoPreview = URL.createObjectURL(file);
+      setVideoPreview(newVideoPreview);
     } else {
       setLecture((prevInput) => ({ ...prevInput, [name]: value }));
     }
   };
 
-  const handletoAddLecture = async (e) => {
+  const handleUpdateLecture = async (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
-    if (validationErrors) return;
+    setLoading(true);
     if (!token || !id) return;
     const formData = new FormData();
     if (lecture.video) formData.append("video", lecture.video);
     formData.append("title", lecture.title);
     formData.append("description", lecture.description);
     formData.append("duration", lecture.duration);
-    setLoading(true);
     try {
-      const { data } = await axios.post(
-        `${ADMIN}/add-lecture/${id}`,
+      const { data } = await axios.put(
+        `${ADMIN}/update-lecture/${id}`,
         formData,
         {
           headers: {
@@ -78,10 +67,9 @@ export const useAddLectures = (id) => {
   return {
     lecture,
     handleLectureChange,
-    imagePreview,
-    setImagePreview,
-    handletoAddLecture,
-    error,
+    videoPreview,
+    setVideoPreview,
+    handleUpdateLecture,
     loading,
   };
 };
