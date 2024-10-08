@@ -13,7 +13,7 @@ import {
 const router = Router();
 
 router.route("/mycourse/:id").get(isAuthenticated, myCourse);
-router.route("/course/checkout/:id").post(isAuthenticated, checkoutPayment);
+router.route("/checkout/:id").post(isAuthenticated, checkoutPayment);
 router.route("/verfication/:id").post(isAuthenticated, verifyPayment);
 router.route("/like-course/:id").put(isAuthenticated, likeCourse);
 router.route("/get-all-likes/:id").get(isAuthenticated, getAllLikes);

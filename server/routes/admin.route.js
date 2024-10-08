@@ -35,7 +35,7 @@ router
   .get(isAuthenticated, isAdmin, getSingleCourse);
 router
   .route("/add-lecture/:id")
-  .post(isAuthenticated, isAdmin, upload.array("files"), addLectures);
+  .post(isAuthenticated, isAdmin, upload.single("video"), addLectures);
 router
   .route("/update-lecture/:id")
   .put(isAuthenticated, isAdmin, upload.single("video"), updateLecture);

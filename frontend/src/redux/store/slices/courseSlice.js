@@ -6,6 +6,7 @@ const courseSlice = createSlice({
     courses: null,
     myCourse: null,
     refresh: false,
+    courseLectures: null,
   },
   reducers: {
     setCourse: (state, action) => {
@@ -24,9 +25,18 @@ const courseSlice = createSlice({
         (course) => course?._id !== action.payload
       );
     },
+
+    setCourseLectures: (state, action) => {
+      state.courseLectures = action.payload;
+    },
   },
 });
 
-export const { setCourse, setMyCourse, refreshCourse, deleteCourse } =
-  courseSlice.actions;
+export const {
+  setCourse,
+  setMyCourse,
+  refreshCourse,
+  setCourseLectures,
+  deleteCourse,
+} = courseSlice.actions;
 export default courseSlice.reducer;

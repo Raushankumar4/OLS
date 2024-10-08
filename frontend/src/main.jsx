@@ -28,6 +28,7 @@ import CourseController from "./Admin/CoursesController/CourseController.jsx";
 import CourseView from "./Admin/CoursesController/CourseView.jsx";
 import UpdateCourse from "./Admin/CreateCourse/UpdateCourse.jsx";
 import AddLectures from "./Admin/Lectures/AddLectures.jsx";
+import PaymentSuccess from "./components/Payment/PaymentSuccess.jsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
       },
       { path: "forgotPassword", element: <ForgotPassword /> },
       { path: "/reset-password/:token", element: <ResetPassword /> },
+      { path: "payment-success", element: <PaymentSuccess /> },
     ],
   },
 ]);

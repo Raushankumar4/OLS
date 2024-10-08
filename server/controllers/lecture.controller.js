@@ -6,15 +6,7 @@ import { uploadOnCloudnary } from "../utils/cloudinary.js";
 
 export const addLectures = TryCatch(async (req, res) => {
   const { id } = req.params;
-  const lectures = req.body.lectures;
-  console.log(lectures);
-
-  if (!Array.isArray(lectures) || lectures.length === 0) {
-    return res.status(400).json({
-      message: "Invalid input: lectures should be a non-empty array",
-      success: false,
-    });
-  }
+  const { title, description, duration } = req.body;
 
   const course = await Course.findById(id);
   if (!course) {
@@ -23,49 +15,29 @@ export const addLectures = TryCatch(async (req, res) => {
       .json({ message: "Course not found", success: false });
   }
 
-  const addedLectures = [];
-
-  for (let i = 0; i < lectures.length; i++) {
-    const { title, description, duration } = JSON.parse(lectures[i]); // Parse JSON
-
-    if (!title || !description || !duration) {
-      return res.status(400).json({
-        message: "Title, description, and duration are required.",
-        success: false,
-      });
-    }
-
-    const videolocalPath = req.files[i] ? req.files[i].path : null;
-    let uploadVideo;
-
-    try {
-      if (videolocalPath) {
-        uploadVideo = await uploadOnCloudnary(videolocalPath);
-      }
-
-      const lecture = await Lecture.create({
-        title,
-        description,
-        duration,
-        video: uploadVideo ? uploadVideo.url : null,
-        course: course._id,
-      });
-
-      addedLectures.push(lecture);
-    } catch (error) {
-      return res.status(500).json({
-        message: "Failed to add one or more lectures",
-        error: error.message,
-        success: false,
-      });
-    }
+  if (!title || !description || !duration || !req.file) {
+    return res
+      .status(400)
+      .json({ message: "Missing required fields", success: false });
   }
 
-  return res.status(200).json({
-    message: "Lectures added successfully",
-    lectures: addedLectures,
-    success: true,
+  const lecture = await Lecture.create({
+    title,
+    description,
+    duration,
+    course: course._id,
+    video: req.file.path.replace(/\\/g, "/"),
   });
+
+  if (!lecture) {
+    return res
+      .status(500)
+      .json({ message: "Error creating lecture", success: false });
+  }
+
+  return res
+    .status(201)
+    .json({ message: "Lecture added successfully", lecture, success: true });
 });
 
 // delete lecture
@@ -109,11 +81,7 @@ export const getAllLecture = TryCatch(async (req, res) => {
       .status(401)
       .json({ message: "Only admin can access", success: false });
   }
-  if (!user.subscription.includes(course._id)) {
-    return res
-      .status(401)
-      .json({ message: "Only subscribed user can access", success: false });
-  }
+
   return res
     .status(200)
     .json({ message: "All lectures", lectures, success: true });
