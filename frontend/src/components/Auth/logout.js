@@ -8,6 +8,7 @@ import {
   setCourseLectures,
   setMyCourse,
 } from "../../redux/store/slices/courseSlice";
+import { setQuestions } from "../../redux/store/slices/questionSlice";
 
 export const logOutuser = async (dispatch) => {
   try {
@@ -18,6 +19,7 @@ export const logOutuser = async (dispatch) => {
     dispatch(setMyCourse(null));
     dispatch(setCourseLectures(null));
     dispatch(setOtherUsers(null));
+    dispatch(setQuestions(null));
     successToast(data.message);
     console.log(data.message);
   } catch (error) {

@@ -12,14 +12,15 @@ export const askQuestion = TryCatch(async (req, res) => {
   if (!user || !course || !question) {
     return res
       .status(404)
-      .json({ message: "User or Course not found", success: false });
+      .json({ message: "All fields are required", success: false });
   }
-  if (!user.subscription.includes(courseId)) {
-    return res.status(401).json({
-      message: "Only subscribed user can ask question",
-      success: false,
-    });
-  }
+
+  // if (!user.subscription.includes(courseId)) {
+  //   return res.status(401).json({
+  //     message: "Only subscribed user can ask question",
+  //     success: false,
+  //   });
+  // }
 
   const newQuestion = await Question.create({
     question: question,

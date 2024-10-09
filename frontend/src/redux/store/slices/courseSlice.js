@@ -7,6 +7,7 @@ const courseSlice = createSlice({
     myCourse: null,
     refresh: false,
     courseLectures: null,
+    likes: null,
   },
   reducers: {
     setCourse: (state, action) => {
@@ -34,6 +35,9 @@ const courseSlice = createSlice({
     setCourseLectures: (state, action) => {
       state.courseLectures = action.payload;
     },
+    setlikeDislike: (state, action) => {
+      state.likes = action.payload;
+    },
   },
 });
 
@@ -44,5 +48,6 @@ export const {
   setCourseLectures,
   deleteCourse,
   deleteCourseLecture,
+  setlikeDislike,
 } = courseSlice.actions;
 export default courseSlice.reducer;

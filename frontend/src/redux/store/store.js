@@ -3,6 +3,7 @@ import authSlice from "./slices/authSlice";
 import userSlice from "./slices/userSlice";
 import courseSlice from "./slices/courseSlice";
 import modalSlice from "./slices/modalSlice";
+import questionSlice from "./slices/questionSlice";
 
 import {
   persistReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   course: courseSlice,
   modal: modalSlice,
+  question: questionSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

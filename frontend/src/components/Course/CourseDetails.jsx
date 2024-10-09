@@ -7,9 +7,10 @@ import { COURSE } from "../../constant";
 import axios from "axios";
 import { successToast } from "../Toast/ToastNotify";
 import Loading from "../Pages/Loading";
+import { useLikeDislikeCourse } from "../../hooks/useLikeDislikeCourse";
 
 const CourseDetails = () => {
-  const { courses } = useSelector((state) => state.course);
+  const { courses, likes } = useSelector((state) => state.course);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const findCourse = courses?.find((course) => course?._id === id);
@@ -17,6 +18,8 @@ const CourseDetails = () => {
   const token = useSelector((state) => state.auth.token);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const { handleLikeDislke } = useLikeDislikeCourse(id);
 
   const courseTags = (() => {
     try {
@@ -114,6 +117,7 @@ const CourseDetails = () => {
   const handleUpdate = () => {
     navigate(`/dashboard/upadate-course/${id}`);
   };
+  console.log(findCourse);
 
   return (
     <>
@@ -123,6 +127,12 @@ const CourseDetails = () => {
         <div className="max-w-6xl mx-auto p-6 min-h-[110vh] dark:bg-gray-900 flex flex-col md:flex-row">
           {/* Left Side: Course Image, Buy Option, and Student Reviews */}
           <div className="flex-none w-full md:w-1/3 p-4">
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+              onClick={handleLikeDislke}
+            >
+              like{likes.length}
+            </button>
             <img
               className="w-full h-64 object-cover rounded-lg shadow-md mb-4"
               src={findCourse?.image}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useGetCourseLectures } from "../../hooks/useGetCourseLectures";
 import { deleteLecture } from "../Lectures/deleteLecture";
+import AskQuestion from "../../components/AskQuestion/AskQuestion";
 
 const SingleCourseView = () => {
   const [newLecture, setNewLecture] = useState("");
@@ -82,6 +83,7 @@ const SingleCourseView = () => {
           </div>
         </div>
       </main>
+      <AskQuestion />
     </div>
   );
 };
