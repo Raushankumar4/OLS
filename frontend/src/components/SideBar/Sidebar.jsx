@@ -72,9 +72,9 @@ const Sidebar = () => {
                 onClick={() => {
                   isOpen && toggleSidebar();
                 }}
-                to="/dashboard/create-lecture"
+                to="/dashboard/otherUsers"
               >
-                Create Lectures
+                Update Role
               </Link>
             </li>
             <li className="py-2">

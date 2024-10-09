@@ -2,7 +2,7 @@ import axios from "axios";
 import { AUTH_URL } from "../../constant";
 import { logout } from "../../redux/store/slices/authSlice";
 import { errorToast, successToast } from "../Toast/ToastNotify";
-import { setUser } from "../../redux/store/slices/userSlice";
+import { setOtherUsers, setUser } from "../../redux/store/slices/userSlice";
 import {
   setCourse,
   setCourseLectures,
@@ -17,6 +17,7 @@ export const logOutuser = async (dispatch) => {
     dispatch(setCourse(null));
     dispatch(setMyCourse(null));
     dispatch(setCourseLectures(null));
+    dispatch(setOtherUsers(null));
     successToast(data.message);
     console.log(data.message);
   } catch (error) {

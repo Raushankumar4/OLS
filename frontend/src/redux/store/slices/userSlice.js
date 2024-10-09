@@ -5,6 +5,7 @@ const userSlice = createSlice({
   initialState: {
     user: null,
     refresh: false,
+    otherUsers: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -20,8 +21,12 @@ const userSlice = createSlice({
     refreshUser: (state) => {
       state.refresh = !state.refresh;
     },
+    setOtherUsers: (state, action) => {
+      state.otherUsers = action.payload;
+    },
   },
 });
 
-export const { setUser, updateUser, refreshUser } = userSlice.actions;
+export const { setUser, updateUser, refreshUser, setOtherUsers } =
+  userSlice.actions;
 export default userSlice.reducer;

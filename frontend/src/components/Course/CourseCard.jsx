@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const CourseCard = ({ courses }) => {
   const cardRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  console.log(courses);
   const navigate = useNavigate();
 
   const handleMouseMove = (e) => {

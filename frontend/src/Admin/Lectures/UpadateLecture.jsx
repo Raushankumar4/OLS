@@ -56,13 +56,16 @@ function UpadateLecture() {
               name="duration"
               label="duration"
             />
-            <InputField
-              name="video"
-              type="file"
-              accept="video/*"
-              label="videoUrl"
-              onChange={handleLectureChange}
-            />
+            {!videoPreview && (
+              <InputField
+                name="video"
+                type="file"
+                accept="video/*"
+                label="videoUrl"
+                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer file:transition-all file:duration-300 file:ease-in-out"
+                onChange={handleLectureChange}
+              />
+            )}
             {videoPreview && (
               <div className="mt-2">
                 <video

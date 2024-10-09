@@ -66,23 +66,30 @@ const AddLectures = () => {
             />
           </div>
 
-          <div className="relative h-20 w-full mb-4">
+          <div className="relative h-20 w-full mb-4 space-y-4">
             {error && <p className="text-red-500">{error.video}</p>}
-            <input
-              type="file"
-              accept="video/*"
-              onChange={handleLectureChange}
-              disabled={false}
-              name="video"
-            />
-            <button
-              type="button"
-              className="absolute left-0 top-8 w-full bg-blue-800 rounded-md text-white p-2"
-              disabled={false}
-            >
-              Add Lecture Video
-            </button>
-            <span className="block mt-1">No file selected</span>
+            {imagePreview && <p className="text-green-500">Video added</p>}
+
+            {!imagePreview && (
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleLectureChange}
+                disabled={false}
+                name="video"
+                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer file:transition-all file:duration-300 file:ease-in-out"
+              />
+            )}
+
+            {!imagePreview && (
+              <button
+                type="button"
+                className="absolute  left-0 top-8 w-full bg-blue-800 rounded-md text-white p-2"
+                disabled={false}
+              >
+                Add Lecture Video
+              </button>
+            )}
           </div>
           {imagePreview && (
             <div className="mt-2">
@@ -103,6 +110,9 @@ const AddLectures = () => {
                 &#x2716; Remove Preview
               </button>
             </div>
+          )}
+          {!imagePreview && (
+            <span className="block mt-1">Video should be less than 100mb</span>
           )}
 
           <div className="flex justify-between space-x-4">

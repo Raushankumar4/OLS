@@ -178,7 +178,7 @@ export const getSingleCourse = TryCatch(async (req, res) => {
 // update user role
 
 export const upadateRole = TryCatch(async (req, res) => {
-  if (req.user.mainrole !== "superadmin")
+  if (req.user.mainRole !== "superadmin")
     return res.status(403).json({
       message: "You are not authorized to update role",
     });
@@ -202,3 +202,10 @@ export const upadateRole = TryCatch(async (req, res) => {
     });
   }
 });
+
+// GET ALL STATS
+export const getAllStats = async (req, res) => {
+  const courses = await Course.countDocuments();
+  const lectures = await Lecture.countDocuments();
+  res.status(200).json({ message: "Stats", courses, lectures });
+};

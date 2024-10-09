@@ -3,6 +3,7 @@ import {
   createCourse,
   deleteCourse,
   getAllCourse,
+  getAllStats,
   getSingleCourse,
   upadateRole,
   updateCourse,
@@ -48,5 +49,6 @@ router
   .route("/delete-all-lectures/:id")
   .delete(isAuthenticated, deleteAllLecture);
 router.route("/update-role/:id").put(isAuthenticated, isAdmin, upadateRole);
+router.route("/get-all-stats").get(getAllStats);
 
 export default router;
