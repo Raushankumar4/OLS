@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CourseCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -75,9 +76,12 @@ const CourseCategories = () => {
                 />
                 <h3 className="font-semibold text-xl">{course?.courseName}</h3>
                 <p className="text-gray-600 mb-2">{course?.description}</p>
-                <button className="mt-2 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors">
+                <Link
+                  to={`/coursedetails/${course?._id}`}
+                  className="mt-2 w-full bg-blue-500 text-white p-2  rounded hover:bg-blue-600 transition-colors"
+                >
                   View Course
-                </button>
+                </Link>
               </div>
             ))}
           </div>

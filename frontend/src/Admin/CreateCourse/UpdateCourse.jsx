@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import TopicsOverview from "./TopicOverview";
-import CategorySelect from "./CategorySelect";
 import { InputField } from "../../components/InputArea/InputField";
 import ImageUpload from "./ImageUpload";
 import FormSubmit from "./FormSubmit";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import CreateCourseCard from "./CreateCourseCard";
 import useUpdateCourse from "../../hooks/useUpdateCourse";
+import UpdateCourseCard from "./UpdateCourseCard";
+import UpdateTopicOverview from "./UpdateTopicOverview";
+import UpdateCouresCategory from "./UpdateCouresCategory";
 
 const UpdateCourse = () => {
   const user = useSelector((state) => state.user.user);
@@ -28,7 +28,6 @@ const UpdateCourse = () => {
     setAddOverview,
     imagePreview,
     isLoading,
-    error,
     handleOnChange,
     handleAddTopic,
     handleOnAddOverview,
@@ -64,16 +63,14 @@ const UpdateCourse = () => {
           </button>
         </div>
 
-        {error && <div className="text-red-600">{error.message}</div>}
         <form onSubmit={handleOnSubmit}>
-          <CreateCourseCard
+          <UpdateCourseCard
             userInput={userInput}
             handleOnChange={handleOnChange}
-            error={error}
             isLoading={isLoading}
           />
 
-          <TopicsOverview
+          <UpdateTopicOverview
             userInput={userInput}
             addTopic={addTopic}
             setAddTopic={setAddTopic}
@@ -87,13 +84,11 @@ const UpdateCourse = () => {
             handleRemoveCourseTag={handleRemoveCourseTag}
             addtag={addtag}
             setAddTag={setAddTag}
-            error={error}
             isLoading={isLoading}
           />
-          <CategorySelect
+          <UpdateCouresCategory
             userInput={userInput}
             handleOnChange={handleOnChange}
-            error={error}
             isLoading={isLoading}
           />
           <InputField
@@ -101,7 +96,6 @@ const UpdateCourse = () => {
             name="createdBy"
             label="Created By"
             disabled={isLoading}
-            error={error.createdBy}
             placeholder="Instructor Name"
             value={userInput.createdBy}
           />
@@ -110,7 +104,6 @@ const UpdateCourse = () => {
             handleOnChange={handleOnChange}
             imagePreview={imagePreview}
             handleRemoveImage={handleRemoveImage}
-            error={error}
             isLoading={isLoading}
           />
           <FormSubmit isLoading={isLoading} />

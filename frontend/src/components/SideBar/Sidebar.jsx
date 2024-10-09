@@ -7,6 +7,7 @@ import { logOutuser } from "../Auth/logout";
 
 const Sidebar = () => {
   const { isOpen } = useSelector((state) => state.modal);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toggleSidebar = () => {
@@ -57,26 +58,44 @@ const Sidebar = () => {
                 Profile
               </Link>
             </li>
-            <li className="py-2">
-              <Link
-                onClick={() => {
-                  isOpen && toggleSidebar();
-                }}
-                to="/dashboard/course-controller"
-              >
-                Coureses
-              </Link>
-            </li>
-            <li className="py-2">
-              <Link
-                onClick={() => {
-                  isOpen && toggleSidebar();
-                }}
-                to="/dashboard/otherUsers"
-              >
-                Update Role
-              </Link>
-            </li>
+
+            {user?.role === "admin" && (
+              <li className="py-2">
+                <Link
+                  onClick={() => {
+                    isOpen && toggleSidebar();
+                  }}
+                  to="/dashboard/course-controller"
+                >
+                  Coureses
+                </Link>
+              </li>
+            )}
+            {user?.role === "user" ||
+              ("admin" && (
+                <li className="py-2">
+                  <Link
+                    onClick={() => {
+                      isOpen && toggleSidebar();
+                    }}
+                    to="/dashboard/mycourse"
+                  >
+                    My Course
+                  </Link>
+                </li>
+              ))}
+            {user?.mainRole === "superadmin" && (
+              <li className="py-2">
+                <Link
+                  onClick={() => {
+                    isOpen && toggleSidebar();
+                  }}
+                  to="/dashboard/otherUsers"
+                >
+                  Update Role
+                </Link>
+              </li>
+            )}
             <li className="py-2">
               <button onClick={handleLogout}>Logout</button>
             </li>

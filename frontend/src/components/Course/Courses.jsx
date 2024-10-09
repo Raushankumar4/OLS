@@ -56,7 +56,7 @@ const Courses = () => {
       )}
 
       {!show && (
-        <div className="">
+        <div>
           <CourseCategories />
         </div>
       )}

@@ -2,9 +2,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import MyCourseCard from "./MyCourseCard";
+import { useGetMyCourse } from "../../hooks/useGetMyCourse";
 
 const MyCourse = () => {
   const myCourse = useSelector((state) => state.course.myCourse);
+  const { user } = useSelector((state) => state.user);
+  useGetMyCourse(user?._id);
   console.log(myCourse);
 
   return (
@@ -16,7 +19,7 @@ const MyCourse = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             to="/courses"
           >
-            View Courses
+            Add Courses
           </Link>
         </div>
       ) : (

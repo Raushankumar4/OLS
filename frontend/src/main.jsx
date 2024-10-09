@@ -54,7 +54,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <CourseProgress /> },
           { path: "profile", element: <Profile /> },
-          { path: "mycourses", element: <MyCourse /> },
+          { path: "mycourse", element: <MyCourse /> },
           { path: "course-controller", element: <CourseController /> },
           { path: "create-new-course", element: <CourseView /> },
           { path: "upadate-course/:id", element: <UpdateCourse /> },

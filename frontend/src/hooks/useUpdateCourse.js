@@ -29,35 +29,10 @@ const useUpdateCourse = (id) => {
   const [addOverview, setAddOverview] = useState("");
   const [imagePreview, setImagePreview] = useState(findcourse?.image);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState({});
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const refresh = useSelector((state) => state.course.refresh);
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (!userInput.courseName) newErrors.courseName = "Course name is required";
-    if (!userInput.description)
-      newErrors.description = "Description is required";
-    if (!userInput.price) newErrors.price = "Price is required";
-    else if (isNaN(userInput.price)) newErrors.price = "Price must be a number";
-    if (!userInput.language) newErrors.language = "Language is required";
-    if (!userInput.courseLevel)
-      newErrors.courseLevel = "Course level is required";
-    if (!userInput.category) newErrors.category = "Category is required";
-    if (!userInput.createdBy) newErrors.createdBy = "Created by is required";
-    if (!userInput.image) newErrors.image = "Image is required";
-    if (userInput.topics.length === 0)
-      newErrors.topics = "At least one topic is required";
-    if (userInput.courseTag.length === 0)
-      newErrors.courseTag = "At least one course tag is required";
-    if (userInput.overview.length === 0)
-      newErrors.overview = "Overview is required";
-
-    setError(newErrors);
-    return Object.keys(newErrors).length === 0 ? null : newErrors;
-  };
 
   useEffect(() => {
     return () => {
@@ -143,8 +118,6 @@ const useUpdateCourse = (id) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validateForm();
-    if (validationErrors) return;
     setIsLoading(true);
 
     try {
@@ -193,7 +166,6 @@ const useUpdateCourse = (id) => {
     addCourseTag,
     imagePreview,
     isLoading,
-    error,
     handleOnChange,
     handleAddTopic,
     handleOnAddOverview,
