@@ -72,7 +72,7 @@ const UpdatePassword = ({ isOpen, onClose }) => {
       successToast(data?.message);
       navigate("/login");
     } catch (error) {
-      errorToast(error?.response?.data?.message || error.message);
+      errorToast(error?.response?.data?.message || error?.message);
       console.error(error);
     } finally {
       setIsLoading(false);
