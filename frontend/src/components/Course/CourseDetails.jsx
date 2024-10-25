@@ -131,7 +131,7 @@ const CourseDetails = () => {
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
               onClick={handleLikeDislke}
             >
-              like{likes.length}
+              like{likes?.length}
             </button>
             <img
               className="w-full h-64 object-cover rounded-lg shadow-md mb-4"
